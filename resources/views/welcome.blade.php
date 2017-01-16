@@ -144,7 +144,7 @@
   </div>
   <!-- End search box -->
   <!-- Start Slider -->
-  <section id="mu-slider">
+  
     <!-- Start single slider item -->
     <div class="mu-slider-single">
       <div class="mu-slider-img">
@@ -159,7 +159,7 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor amet error eius reiciendis eum sint unde eveniet deserunt est debitis corporis temporibus recusandae accusamus.</p>
         <a href="#" class="mu-read-more-btn">Read More</a>
       </div>
-    </div>
+    
     <!-- Start single slider item -->
    
   <!-- Start service  -->
