@@ -132,9 +132,9 @@
   <!-- Start Slider -->
   
     <!-- Start single slider item -->
-  <div class="container">  
-          <img class="img-responsive" src="assets/img/slider/1.jpg" alt="img">
-  
+    
+          <img  src="assets/img/slider/1.jpg" alt="img">
+  <div class="container">
   <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             <div id="imaginary_container"> 
