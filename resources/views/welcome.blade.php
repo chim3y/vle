@@ -133,7 +133,7 @@
   
     <!-- Start single slider item -->
     
-          <img  src="assets/img/slider/1.jpg" alt="img">
+          <img  src="assets/img/slider/1.jpg" alt="img" width="100%">
   <div class="container">
   <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
