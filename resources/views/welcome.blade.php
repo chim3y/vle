@@ -42,7 +42,7 @@
       <i class="fa fa-angle-up"></i>      
     </a>
   <!-- END SCROLL TOP BUTTON -->
-
+{{--
   <!-- Start header  -->
   <header id="mu-header">
     <div class="container">
@@ -82,6 +82,7 @@
     </div>
   </header>
   <!-- End header  -->
+ --}} 
   <!-- Start menu -->
   <section id="mu-menu">
     <nav class="navbar navbar-default" role="navigation">  
