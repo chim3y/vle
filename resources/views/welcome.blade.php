@@ -277,19 +277,6 @@
   </section>
   <!-- End about us counter -->
 
-  <!-- Start features section -->
-  <section id="mu-features">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 col-md-12">
-          <div class="mu-features-area">
-            <!-- Start Title -->
-            <div class="mu-title">
-              <h2>Our Features</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio ipsa ea maxime mollitia, vitae voluptates, quod at, saepe reprehenderit totam aliquam architecto fugiat sunt animi!</p>
-            </div>
-            <!-- End Title -->
-            
 
   <!-- Start latest course section -->
   <section id="mu-latest-courses">
