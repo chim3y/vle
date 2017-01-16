@@ -54,11 +54,11 @@
                 <div class="mu-header-top-left">
                   <div class="mu-top-email">
                     <i class="fa fa-envelope"></i>
-                    <span>info@markups.io</span>
+                    <span>info@vle.bt</span>
                   </div>
                   <div class="mu-top-phone">
                     <i class="fa fa-phone"></i>
-                    <span>(568) 986 652</span>
+                    <span>(975) 17985 414</span>
                   </div>
                 </div>
               </div>
@@ -104,22 +104,16 @@
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
             <li class="active"><a href="index.html">Home</a></li>            
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course <span class="fa fa-angle-down"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Courses <span class="fa fa-angle-down"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="course.html">Course Archive</a></li>                
                 <li><a href="course-detail.html">Course Detail</a></li>                
               </ul>
             </li>           
-            <li><a href="gallery.html">Gallery</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="blog-archive.html">Blog Archive</a></li>                
-                <li><a href="blog-single.html">Blog Single</a></li>                
-              </ul>
-            </li>            
+            <li><a href="schools.html">Schools</a></li>
+                      
             <li><a href="contact.html">Contact</a></li>
-            <li><a href="404.html">404 Page</a></li>               
+                           
             <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
           </ul>                     
         </div><!--/.nav-collapse -->        
@@ -146,13 +140,9 @@
   <!-- Start Slider -->
   
     <!-- Start single slider item -->
-    <div class="mu-slider-single">
-      <div class="mu-slider-img">
-        <figure>
+    
           <img src="assets/img/slider/1.jpg" alt="img">
-        </figure>
-      </div>
-    </div>
+      
     
     <!-- Start single slider item -->
    
