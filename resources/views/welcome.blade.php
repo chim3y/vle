@@ -85,7 +85,7 @@
  --}} 
   <!-- Start menu -->
   <section id="mu-menu">
-    <nav class="navbar navbar-default" role="navigation">  
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">  
       <div class="container">
         <div class="navbar-header">
           <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
