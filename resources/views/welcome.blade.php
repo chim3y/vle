@@ -133,7 +133,7 @@
   
     <!-- Start single slider item -->
  <div class="container-fluid">   
-          <img  src="assets/img/slider/1.jpg" alt="img" width="100% height="350 px" >
+          <img  src="assets/img/slider/1.jpg" alt="img" width="100%" height="20%" >
  </div>         
   <div class="container">
   <div class="row">
