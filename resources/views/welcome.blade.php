@@ -116,8 +116,8 @@
              </div>
 <div id="result"></div>
               
-             
-             $(function(){
+<script>         
+    $(function(){
     $('#login').popover({
        
         placement: 'bottom',
@@ -139,7 +139,7 @@
       })
   })
 })
-
+</script>
  
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">  
