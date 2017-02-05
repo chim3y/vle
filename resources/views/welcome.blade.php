@@ -101,14 +101,47 @@
           <!-- IMG BASED LOGO  -->
           <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
         </div>
-
-        <div id="navbar">
-        <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-        <li> <a href="#"> Login </li>
-        </div>
+   
+ 
         <div id="navbar" class="navbar-collapse collapse">
-          <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">           
-           
+          <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">  
+             <li> <div class="well"> 
+             <div id="myForm" class="hide">
+             <form action="/echo/html/" id="popForm" method="get">
+            <div>
+            <input type="text" name="name" id="name" class="form-control input-md" placeholder="username">
+            <input type="password" name="password" id="password" maxlength="6" placeholder="password">
+            <button type="button" class="btn btn-primary" data-loading-text="logging.."><em class="icon-ok"></em> Login </button>
+        </div>
+    </form>
+</div>
+$(function(){
+    $('#login').popover({
+       
+        placement: 'bottom',
+        title: 'Popover Form',
+        html:true,
+        content:  $('#myForm').html()
+    }).on('click', function(){
+      // had to put it within the on click action so it grabs the correct info on submit
+      $('.btn-primary').click(function(){
+       $('#result').after("form submitted by " + $('#email').val())
+        $.post('/echo/html/',  {
+            email: $('#email').val(),
+            name: $('#name').val(),
+            gender: $('#gender').val()
+        }, function(r){
+          $('#pops').popover('hide')
+          $('#result').html('resonse from server could be here' )
+        })
+      })
+  })
+})
+
+<div id="result"></div>
+              <button type="button" id="login" class="btn">Login sign up Form</button>
+             </div></li>     
+
              <li><a href="contact.html">Contact</a></li>
                            
             <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
