@@ -102,20 +102,22 @@
           <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
         </div>
    
- 
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">  
-             <li> <div class="well"> 
+   <div class="well"> 
+   <button type="button" id="login" class="btn">Login sign up Form</button>
+  </div>
              <div id="myForm" class="hide">
              <form action="/echo/html/" id="popForm" method="get">
-            <div>
-            <input type="text" name="name" id="name" class="form-control input-md" placeholder="username">
-            <input type="password" name="password" id="password" maxlength="6" placeholder="password">
-            <button type="button" class="btn btn-primary" data-loading-text="logging.."><em class="icon-ok"></em> Login </button>
-        </div>
-    </form>
-</div>
-$(function(){
+             <div>
+             <input type="text" name="name" id="name" class="form-control input-md" placeholder="username">
+             <input type="password" name="password" id="password" maxlength="6" placeholder="password">
+             <button type="button" class="btn btn-primary" data-loading-text="logging.."><em class="icon-ok"></em> Login </button>
+             </div>
+             </form>
+             </div>
+<div id="result"></div>
+              
+             
+             $(function(){
     $('#login').popover({
        
         placement: 'bottom',
@@ -138,12 +140,10 @@ $(function(){
   })
 })
 
-<div id="result"></div>
-              <button type="button" id="login" class="btn">Login sign up Form</button>
-             </div></li>     
-
-             <li><a href="contact.html">Contact</a></li>
-                           
+ 
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">  
+            <li><a href="contact.html">Contact</a></li>
             <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
           </ul>                     
         </div><!--/.nav-collapse -->        
