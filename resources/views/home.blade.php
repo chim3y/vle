@@ -1,9 +1,7 @@
-
- 
   @extends ('welcome')
   @section ('title', 'vle | Home')
   <!-- Start menu -->
-  @include ('menu')
+  @include ('pages.menu')
   <!-- End menu -->
 
   @section('content')

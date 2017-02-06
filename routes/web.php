@@ -14,3 +14,18 @@
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/contact', function () {
+    return view('pages.contact');
+});
+
+Route::get('/login', function () {
+    return view('pages.login');
+});
+
+
+//-- Admin --//
+
+Route::get('/admin/dashboard', function () {
+     return view('admin.dashboard');
+});
