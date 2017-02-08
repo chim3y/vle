@@ -29,3 +29,18 @@ Route::get('/login', function () {
 Route::get('/admin/dashboard', function () {
      return view('admin.dashboard');
 });
+
+
+//--Courses --//
+
+
+//--Users --//
+Route::get('/admin/users', [
+    'as'=>'index',
+    'uses'=>'UsersController@index']
+	);
+			
+Route::get('/admin/users/postusers', [
+	 'as'=>'postusers',
+    'uses'=>'UsersController@postusers'] );
+			
