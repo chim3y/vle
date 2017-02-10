@@ -3,7 +3,7 @@
 //-- HOME Page --//
 
 Route::get('/', function () {
-    return User::all;
+    return ('index');
 });
 
 Route::get('/', function () {
