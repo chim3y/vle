@@ -1,22 +1,36 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests;
+use App\Http\Requests\CreateCourseRequest;
 use Yajra\Datatables\Datatables;
-
-use Illuminate\Http\Request;
-use \app\course;
+use App\Course;
 
 class CoursesController extends Controller
 {
-    pubic function getCourses(){
-    	 return view('courses.courses');
+
+    public function index()
+    {
+        return view('courses.index');
+        
     }
 
 
-    public function anyData()
-{
-    return Datatables::eloquent(course::query())->make(true);
-}
+     public function coursesData(){
+         $course=Course::select(array('course_name','course_code','programme_code','credits', 'start_date', 'end_date', 'description'));
+        return Datatables::of($course)->make('true');
+    }
 
+
+   
+    public function create(){
+    	return view ('courses.create');
+    }
+
+     public function store(CreateCourseRequest $request ){
+        $input = $request->all();
+        course::create($input);
+
+    	return redirect('courses');
+    }
 }

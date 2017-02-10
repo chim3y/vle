@@ -14,8 +14,8 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-            <h3>Courses</h3>
-              <p>Add Course</p>
+            <h3> <a href="/courses" style="color:inherit">Courses </a></h3>
+              <p><a href="/courses/create" style="color:inherit"> Add Course </a></p>
             </div>
             <div class="icon">
               <i class="ion ion-ios-book"></i>
@@ -28,9 +28,9 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>Programme</h3>
+              <h3><a href="/programme" style="color: inherit">Programme </a></h3>
 
-              <p>Add Programme</p>
+              <p><a href="/programme/create" style="color: inherit"> Add Programme </a> </p>
             </div>
             <div class="icon">
               <i class="ion ion-trophy"></i>
@@ -43,9 +43,9 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>USERS</h3>
+              <h3><a href="/users" style="color: inherit">USERS </a></h3>
 
-              <p>Add User</p>
+              <p><a href="/users/create" style="color: inherit"> Add User </a></p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
@@ -58,9 +58,9 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>Grade</h3>
+              <h3><a href="/grades" style="color: inherit;"> Grade </a></h3>
 
-              <p>Reports</p>
+              <p><a href="/grades/reports" style="color: inherit"> Reports </a></p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>

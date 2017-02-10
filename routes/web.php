@@ -1,18 +1,9 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+//-- HOME Page --//
 
 Route::get('/', function () {
-    return view('home');
+    return view('index');
 });
 
 Route::get('/contact', function () {
@@ -24,23 +15,31 @@ Route::get('/login', function () {
 });
 
 
+
 //-- Admin --//
 
-Route::get('/admin/dashboard', function () {
+Route::get('/dashboard', function () {
      return view('admin.dashboard');
 });
 
 
-//--Courses --//
 
+//--Courses --//
+Route::get('/courses', array('as' => 'courses', 'uses' => 'CoursesController@index'));
+Route::get('/courses/getcoursesData', array('as' => 'coursesData', 'uses' => 'CoursesController@coursesData'));
+
+Route::get('/courses/create', 'CoursesController@create');
+Route::post('/courses', 'CoursesController@store');
 
 //--Users --//
-Route::get('/admin/users', [
-    'as'=>'index',
-    'uses'=>'UsersController@index']
-	);
-			
-Route::get('/admin/users/postusers', [
-	 'as'=>'postusers',
-    'uses'=>'UsersController@postusers'] );
-			
+Route::get('/users', array('as' => 'users', 'uses' => 'UsersController@index'));
+Route::get('/users/getusersData', array('as' => 'usersData', 'uses' => 'UsersController@usersData'));
+
+Route::get('/users/create', 'UsersController@create');
+Route::post('/users', 'UsersController@store');
+
+
+//-- Authentication --//	
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
