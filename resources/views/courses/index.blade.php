@@ -1,14 +1,19 @@
 @extends('layouts.main')
 
 @section('content')
-
-<div class="well" style="background-color: cyan">
+<div class="row">
+<div class="col-sm-8 col-sm-offset-2" >
+<div class="well" style="background-color: white">
 <br/>
 <br/>
+<div class="row">
+<div class="col-sm-10 col-sm-offset-1">
 <a type="button" class="btn btn-primary" href="/courses/create"> Add Course</a>
+</div>
+</div>
 <br/>
 <br/>
-    <table class="table table-bordered" id="courses-table">
+    <table class="table table-bordered" id="courses">
         <thead>
             <tr>
                 <th>Course Name</th>
@@ -22,12 +27,14 @@
         </thead>
 </table>
 </div>
+</div>
+</div>
 @stop
 
 @push('scripts')
 <script>
 $(function() {
-    $('#courses-table').DataTable({
+    $('#courses').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{!! route('coursesData') !!}',

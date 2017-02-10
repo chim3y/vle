@@ -2,13 +2,19 @@
 
 
 @section('content')
+<div class="row">
+<div class="col-sm-8 col-sm-offset-2" >
+<div class="well" style="background-color: white">
 <br/>
 <br/>
+<div class="row">
+<div class="col-sm-10 col-sm-offset-1">
 <a type="button" class="btn btn-primary" href="/users/create"> Add Users</a>
+</div>
+</div>
 <br/>
 <br/>
-<div class="well" style="background-color: cyan">
-    <table class="table table-bordered" id="users-table">
+    <table class="table table-bordered" id="users">
         <thead>
             <tr>
                 <th>Id</th>
@@ -19,12 +25,14 @@
         </thead>
 </table>
 </div>
+</div>
+</div>
 @stop
 
 @push('scripts')
 <script>
 $(function() {
-    $('#users-table').DataTable({
+    $('#users').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{!! route('usersData') !!}',
