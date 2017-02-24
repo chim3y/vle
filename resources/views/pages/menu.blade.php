@@ -17,7 +17,7 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">  
-            <li> <a href="login.blade.php"> Login </a> </li>
+            <li> <a href="/login"> Login </a> </li>
             <li><a href="contact.blade.php">Contact</a></li>
             <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
           </ul>                     

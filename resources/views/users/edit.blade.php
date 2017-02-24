@@ -8,20 +8,10 @@
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::open(['url'=>'users']) !!}
+{!! Form::model($user,['method'=>'PATCH', 'action'=>['UsersController@update', $user->id]]) !!}
  <div class="well" style="background-color: white">
 
-<div class="page-header"> Basic Information </div>
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('user_type','User Type*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::select('user_type',['Student'=>'student','Tutor'=>'tutor']) !!}
-</div>
-</div>
-</div>
-<br/>
-
+ <div class="page-header"> Basic Information </div>
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('first_name','First Name*',['class'=>'col-sm-3 control-label']) !!}
@@ -200,7 +190,7 @@
 
 <div class="row">
 <div class="form-group"> 
- <div class="col-md-6 col-md-offset-4">
+<div class="col-lg-8 col-sm-offset-2">
  <div class="dropup">
  <div class="btn-group">
  
@@ -234,7 +224,7 @@
 
 
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
     $('.glyphicon-star').click(function () {
         $(this).parent("div").find(".glyphicon-star")
             .toggleClass("glyphicon-star");

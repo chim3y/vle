@@ -1,8 +1,8 @@
-@extends('layouts.main')
+@extends('layouts.index')
 
 @section('content')
 <div class="row">
-<div class="col-sm-8 col-sm-offset-2" >
+<div class="col-sm-10 col-sm-offset-1">
 <div class="well" style="background-color: white">
 <br/>
 <br/>
@@ -13,16 +13,15 @@
 </div>
 <br/>
 <br/>
-    <table class="table table-bordered" id="courses">
+    <table class="table table-bordered table-condensed" id="courses_table">
         <thead>
             <tr>
+                <th>Id</th>
+                <th>User Name</th>
                 <th>Course Name</th>
                 <th>Course Code</th>
-                <th>Programme Code</th>
                 <th>Credits</th>
-                <th>Start Date </th>
-                <th>End Date </th>
-                <th>Description </th>
+                <th>Action</th>
             </tr>
         </thead>
 </table>
@@ -34,19 +33,21 @@
 @push('scripts')
 <script>
 $(function() {
-    $('#courses').DataTable({
+    $('#courses_table').DataTable({
+        responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('coursesData') !!}',
+          ajax:"{{ route('coursesData') }}" ,
         columns: [
-            { data: 'course_name', name: 'course_name' },
-            { data: 'course_code', name: 'course_code' },
-            { data: 'programme_code', name: 'programme_code' },
-            { data: 'start_date', name: 'start_date'},
-            { data: 'end_date', name: 'end_date'},
-            { data: 'description', name: 'description'},
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'users.name', orderable: false},
+            { data: 'course_name', name: 'course_name', orderable: false },
+            { data: 'course_code', name: 'course_code', orderable: false },
+            { data: 'credits', name: 'credits', orderable: false },
+            {data: 'action', name: 'action', orderable: false}
         ]
-    });
+    });   
 });
 </script>
+
 @endpush

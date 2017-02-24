@@ -1,6 +1,6 @@
 @extends('layouts.index')
-@section('title', 'Courses | Create')
-@section('main_title', 'Courses')
+@section('title', 'Users | Create')
+@section('main_title', 'Users')
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
 @section ('content')
@@ -8,11 +8,10 @@
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::open(['url'=>'courses']) !!}
-
-
+{!! Form::model($course,['method'=>'PATCH', 'action'=>['CoursesController@update', $course->id]]) !!}
+ 
  <div class="well" style="background-color: white">
-}
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('course_name','Course Name*',['class'=>'col-sm-3 control-label']) !!}
@@ -35,9 +34,17 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('programme_code','Programme Code*', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('programme_id','Programme Name*', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('programme_code',null, ['class'=>'form-control']) !!}
+  <select class="form-control" name="programme_id[]"> 
+   
+       @foreach($programmes as $programme)
+      <option value="{{$programme->id}}">   
+      {{$programme->programme_name}}     
+      </option>
+    @endforeach
+
+  </select>
 </div>
 </div>
 </div>
@@ -137,5 +144,13 @@
 
 
 
+<script type="text/javascript">
+    $(document).ready(function () {
+    $('.glyphicon-star').click(function () {
+        $(this).parent("div").find(".glyphicon-star")
+            .toggleClass("glyphicon-star");
+    });
+});
+</script>
 
 @endsection

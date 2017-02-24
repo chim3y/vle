@@ -1,9 +1,9 @@
-@extends('layouts.main')
+@extends('layouts.index')
 
 
 @section('content')
 <div class="row">
-<div class="col-sm-8 col-sm-offset-2" >
+<div class="col-sm-10 col-sm-offset-1">
 <div class="well" style="background-color: white">
 <br/>
 <br/>
@@ -14,13 +14,14 @@
 </div>
 <br/>
 <br/>
-    <table class="table table-bordered" id="users">
+    <table class="table table-bordered table-condensed" id="users_table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>User Name</th>
                 <th>Email</th>
                 <th>Password</th>
+                <th>Action </th>
             </tr>
         </thead>
 </table>
@@ -32,17 +33,20 @@
 @push('scripts')
 <script>
 $(function() {
-    $('#users').DataTable({
+    $('#users_table').DataTable({
+        responsive: true,
         processing: true,
         serverSide: true,
         ajax: '{!! route('usersData') !!}',
         columns: [
-            { data: 'id', name: 'id' },
-            { data: 'name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'password', name: 'password' },
+            { data: 'id', name: 'id', orderable: true   },
+            { data: 'name', name: 'name', orderable: false },
+            { data: 'email', name: 'email', orderable: false },
+            { data: 'password', name: 'password', orderable: false },
+            {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
 });
 </script>
+
 @endpush
