@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class CourseRequest extends FormRequest
 {
     /**
@@ -24,6 +25,7 @@ class CourseRequest extends FormRequest
     public function rules()
     {
         return [
+            'image'=>'sometimes | image',
             'course_name'=>'required',
             'course_code'=>'required | min:6',
             'credits'=>'required'

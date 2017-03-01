@@ -3,14 +3,26 @@
 @section('main_title', 'Users')
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+@endsection
 @section ('content')
 <br/>
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::model($course,['method'=>'PATCH', 'action'=>['CoursesController@update', $course->id]]) !!}
+{!! Form::model($course,['files'=>'true','method'=>'PATCH', 'action'=>['CoursesController@update', $course->id]]) !!}
  
  <div class="well" style="background-color: white">
+ <div class="row">
+ <div class="form-group">
+ {!! Form::label('image','Edit Image',['class'=>'col-sm-3 control-label']) !!}
+<div class="col-sm-6">
+{!! Form::file('image') !!}
+</div>
+ </div>
+ </div>
+ <br/>
 
 <div class="row">
 <div class="form-group"> 
@@ -34,17 +46,10 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('programme_id','Programme Name*', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('programme_id','Programme Name:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-  <select class="form-control" name="programme_id[]"> 
-   
-       @foreach($programmes as $programme)
-      <option value="{{$programme->id}}">   
-      {{$programme->programme_name}}     
-      </option>
-    @endforeach
-
-  </select>
+{{ Form::select('programme_id[]',$programmes,null, ['class'=>'form-control select2-multi', 'multiple'=>'multiple']) }}
+</select>
 </div>
 </div>
 </div>
@@ -62,9 +67,11 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('semester_no','Semester*', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('semester_id','Semesters:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('semester_no',null, ['class'=>'form-control']) !!}
+{{ Form::select('semester_id',$semesters,null, ['class'=>'form-control']) }}
+
+</select>
 </div>
 </div>
 </div>
@@ -140,17 +147,13 @@
 </div>
 </div>
 
-
-
-
+@push('scripts')
+{!! Html::script('/js/select2.min.js') !!}
 
 <script type="text/javascript">
-    $(document).ready(function () {
-    $('.glyphicon-star').click(function () {
-        $(this).parent("div").find(".glyphicon-star")
-            .toggleClass("glyphicon-star");
-    });
-});
+  $(".select2-multi").select2();
+   $(".select2-multi").select2().val({!! json_encode($course->programmes()->getRelatedIds()) !!}).trigger('change');
 </script>
+@endpush
 
 @endsection

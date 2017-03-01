@@ -8,10 +8,19 @@
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::model($user,['method'=>'PATCH', 'action'=>['UsersController@update', $user->id]]) !!}
+{!! Form::model($user,['files'=>'true','method'=>'PATCH', 'action'=>['UsersController@update', $user->id]]) !!}
  <div class="well" style="background-color: white">
 
  <div class="page-header"> Basic Information </div>
+  <div class="row">
+ <div class="form-group">
+ {!! Form::label('image','Edit Image',['class'=>'col-sm-3 control-label']) !!}
+<div class="col-sm-6">
+{!! Form::file('image') !!}
+</div>
+ </div>
+ </div>
+ <br/>
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('first_name','First Name*',['class'=>'col-sm-3 control-label']) !!}
@@ -143,9 +152,9 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('semester_no','Semester Number*', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('semester_id','Semester Number*', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('semester_no',null, ['class'=>'form-control']) !!}
+{!! Form::select('semester_id',$semesters, null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>

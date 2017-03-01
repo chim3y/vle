@@ -61,7 +61,8 @@ public function __construct() {
   
     public function show($id){
 
-    $programme = Programme::with('course_programme.courses')->find($id)->groupby('semester_taken');
+    $programme = Programme::with('course_programme.courses.semester')->find($id);
+   
 
        return view('programme.show', compact('programme'));
     }

@@ -5,6 +5,8 @@ use App\Http\Requests;
 use Yajra\Datatables\Datatables;
 use App\User;
 use App\Http\Requests\UserRequest;
+use Hash;
+use Image;
 
 class UsersController extends Controller
 {  
@@ -52,8 +54,21 @@ class UsersController extends Controller
     }
 
      public function store(UserRequest $request){
-       $input = $request->all();
-       $users= User::create($input); 
+        $user = new User;
+        if($request->hasfile('image')){
+        $image=$request->file('image');
+        $filename=time(). '.' .$image->getClientOriginalExtension();
+        $location=public_path('images/users'.$filename);
+        Image::make($image)->resize(100, 100)->save($location);
+        $user->image=$filename;
+        }
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->password=hash::make($request->password);
+        $user->created_at =$request->created_at;
+        $user->updated_at= $request->updated_at;
+        $user->save();
+
        return redirect('users');
     }
 
@@ -67,6 +82,13 @@ class UsersController extends Controller
 
     public function update($id, UserRequest $request){
         $user = User::findorfail($id);
+         if($request->hasfile('image')){
+        $image=$request->file('image');
+        $filename=time(). '.' .$image->getClientOriginalExtension();
+        $location=public_path('images/users'.$filename);
+        Image::make($image)->resize(100, 100)->save($location);
+        $user->image=$filename;
+        }
         $user->update($request->all());
         return redirect('users');
     }

@@ -4,8 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class UserRequest extends FormRequest
+class ContentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +24,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-         'image'=>'sometimes | image'
-         'name'=>'required',
-         'email'=>'required | min:6',
-         'password'=> 'required',
-         
+             'name'=>'required | max:255',
         ];
-    }
-    public function setPasswordAttribute($password)
-    {   
-        $this->attributes['password'] = bcrypt($password);
     }
 }

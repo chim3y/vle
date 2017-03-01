@@ -40,7 +40,7 @@ $(function() {
           ajax:"{{ route('coursesData') }}" ,
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'name', name: 'users.name', orderable: false},
+            { data: 'user.name', name: 'users.name', orderable: false},
             { data: 'course_name', name: 'course_name', orderable: false },
             { data: 'course_code', name: 'course_code', orderable: false },
             { data: 'credits', name: 'credits', orderable: false },

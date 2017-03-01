@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests;
 use App\Http\Requests\CourseRequest;
 use Yajra\Datatables\Datatables;
 use App\Course;
 use App\Programme;
-
-
+use App\Semester;
+use App\Course_Programme;
+use Image;
+use Storage;
 use Auth;
+use Session;
+
 class CoursesController extends Controller
 {
 
@@ -38,9 +41,7 @@ public function __construct() {
             }) 
             ->editColumn('name', function ($course) {
  return '<a  class="btn btn-default" data-toggle="modal" data-target="#myModal" style="color:inherit"> '
-
                   .$course->user->name. 
-
                    '<!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -74,56 +75,96 @@ public function __construct() {
 
        $course=Course::all();
        $programmes=Programme::all();
-
-         	return view ('courses.create')->withCourses($course)->withProgrammes($programmes);
+       $semesters=Semester::all();
+    
+    return view ('courses.create')->withCourses($course)->withProgrammes($programmes)->withSemesters($semesters);
 
     }
 
-     public function store(CourseRequest $request ){
+     public function store(CourseRequest $request){
         
         $course = new Course;
+        if($request->hasfile('image')){
+        $image=$request->file('image');
+        $filename=time(). '.' .$image->getClientOriginalExtension();
+        $location=public_path('images/courses/'.$filename);
+        Image::make($image)->resize(100, 100)->save($location);
+        $course->image=$filename;
+        }
         $course->user_id = Auth::user()->id;
         $course->course_name=$request->course_name;
         $course->course_code=$request->course_code;
         $course->credits=$request->credits;
         $course->description=$request->description;
-        $course->created_at =$request->created_at;
-        $course->updated_at= $request->updated_at;
         $course->save();
 
-        $course->programmes()->sync($request->programme_id,false);
-
+       
+        $semester_id= $request->semester_id;
+        $programme_id= $request->programme_id; 
+       
+         
+         $course->semesters()->attach($semester_id, array('programme_id'=>$programme_id));
+         $course->semesters()->attach($semester_id, array('programme_id'=>$programme_id));
+        
+        Session::flash('success', 'This course was successfully created');
         return redirect('courses');
        
     }
   
     public function show($id){
-       $course= Course::find($id);
-      
-       return $course;
+       $course = Course::with("semesters.programmes","user")->find($id)->join("contents",'content_id','=','contents.id');
+
+       return view('courses.show')->withCourse($course);
     }
 
 
      public function edit($id){
        $programmes=Programme::all();
-      
+       $programmes2=array();
+       foreach ($programmes as $programme) {
+         $programmes2[$programme->id] = $programme->programme_name;
+       }
 
+       $semesters=Semester::all();
+       $semesters2=array();
+       foreach ($semesters as $semester) {
+         $semesters2[$semester->id] = $semester->semester_name;
+       }
        $course= Course::findorfail($id);
       
-       return view('courses.edit', compact('course','programmes'));
+       return view('courses.edit', compact('course'))->withProgrammes($programmes2)->withSemesters($semesters2);
     }
 
-    public function update($id, CourseRequest $request){
+    public function update(CourseRequest $request, $id){
         $course = Course::findorfail($id);
+        if($request->hasfile('image')){
+          //Add new image
+        $image=$request->file('image');
+        $filename=time(). '.' .$image->getClientOriginalExtension();
+        $location=public_path('images/courses/'.$filename);
+        Image::make($image)->resize(100, 100)->save($location);
+        //Save old image
+        $oldFilename=$course->image;
+        //update new image
+        $course->image=$filename;
+        //delete old image
+        Storage::delete($oldFilename);
+        }
         $course->user_id = Auth::user()->id;
         $course->course_name=$request->course_name;
         $course->course_code=$request->course_code;
         $course->credits=$request->credits;
         $course->description=$request->description;
-        $course->created_at =$request->created_at;
-        $course->updated_at= $request->updated_at;
-        $course->update($request->all());
-        $course->programmes()->sync($request->programme_id, true);
+        $course->save();
+        
+        $semester_id= $request->semester_id;
+        $programme_id= $request->programme_id; 
+       
+     
+         $course->semesters()->attach($semester_id, array('programme_id'=>$programme_id));
+     
+    
+        Session::flash('success', 'This course was successfully edited');
         return redirect('courses');
     }
 

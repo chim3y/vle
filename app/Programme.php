@@ -12,13 +12,19 @@ class Programme extends Model
     ];
 
   public function courses(){
-      return $this->belongsToMany('App\Course') 
-      ->withPivot('semester_taken','elective','selected','tutor_id')->orderby('semester_taken','asc')->withTimestamps();
+      return $this->belongsToMany('App\Course','course_programme','programme_id','course_id') 
+      ->withPivot('semester_id','elective','selected')->withTimestamps();
     }
+  public function semesters(){
+      return $this->belongsToMany('App\Course','course_programme','programme_id','semester_id') 
+      ->withPivot('course_id','elective','selected')->withTimestamps();
+    }
+
+
 
    public function course_programme(){
 
-    return $this->hasMany(Course_Programme::class);
+    return $this->belongsTo(Course_Programme::class)->withPivot('elective','selected')->withTimestamps;
   }
     
     public function department(){
@@ -28,11 +34,6 @@ class Programme extends Model
 
    public function user(){
       return $this->belongsTo(User::class);
-    
-   } 
-
-   public function semester(){
-      return $this->belongsTo(Semester::class);
     
    } 
 

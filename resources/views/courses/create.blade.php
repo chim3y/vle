@@ -3,15 +3,26 @@
 @section('main_title', 'Courses')
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+@endsection
 @section ('content')
-<br/>
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::open(['url'=>'courses']) !!}
-
+{!! Form::open(['url'=>'courses', 'files'=>'true']) !!}
 
  <div class="well" style="background-color: white">
+
+ <div class="row">
+ <div class="form-group">
+ {!! Form::label('image','Upload Image',['class'=>'col-sm-3 control-label']) !!}
+<div class="col-sm-6">
+{!! Form::file('image') !!}
+</div>
+ </div>
+ </div>
+ <br/>
 
 <div class="row">
 <div class="form-group"> 
@@ -35,17 +46,15 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('programme_id','Programme Name*', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('programme_id','Programme Name:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-  <select class="form-control" name="programme_id[]">
-   
-       @foreach($programmes as $programme)
-      <option value="{{$programme->id}}">   
-      {{$programme->programme_name}}     
-      </option>
-    @endforeach
-
-  </select>
+<select class="select2-multi form-control" name="programme_id" multiple="multiple"> 
+@foreach($programmes as $programme)
+<option value="{{$programme->id}}"> 
+{{$programme->programme_name}}
+</option>
+@endforeach
+</select>
 </div>
 </div>
 </div>
@@ -63,9 +72,15 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('semester_no','Semester*', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('semester_id','Semester:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('semester_no',null, ['class'=>'form-control']) !!}
+<select class="form-control" name="semester_id">
+@foreach($semesters as $semester)
+<option value="{{$semester->id}}"> 
+{{$semester->semester_name}}
+</option>
+@endforeach
+</select>
 </div>
 </div>
 </div>
@@ -128,22 +143,26 @@
 </div>
 </div>
 </div>
-{!! Form::close() !!}
 @if($errors->any())
     <ul class="alert alert-danger">
     @foreach($errors->all() as $error)
     <li> {{ $error}} </li>
     @endforeach
     </ul>
-
 @endif
+{!! Form::close() !!}
 
 </div>
 </div>
 
+@stop
 
 
 
+@push('scripts')
+{!! Html::script('/js/select2.min.js') !!}
 
-
-@endsection
+<script type="text/javascript">
+  $(".select2-multi").select2();
+</script>
+@endpush

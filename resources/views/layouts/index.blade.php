@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="../../plugins/datepicker/datepicker3.css">
   <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-
+  @yield('stylesheets')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">

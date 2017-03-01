@@ -8,10 +8,20 @@
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::open(['url'=>'users']) !!}
+{!! Form::open(['url'=>'users','files'=>'true']) !!}
  <div class="well" style="background-color: white">
 
 <div class="page-header"> Basic Information </div>
+ <div class="row">
+ <div class="form-group">
+ {!! Form::label('image','Upload Image',['class'=>'col-sm-3 control-label']) !!}
+<div class="col-sm-6">
+{!! Form::file('image') !!}
+</div>
+ </div>
+ </div>
+ <br/>
+ 
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('user_type','User Type*',['class'=>'col-sm-3 control-label']) !!}

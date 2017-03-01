@@ -7,21 +7,22 @@ class Course_Programme extends Model
 {
    protected $table = 'course_programme';
     protected $fillable = [
-    'course_id', 'programme_id', 'semester_taken','created_at', 'updated_at'
+    'course_id', 'programme_id','created_at', 'updated_at'
     ];
 
-    public function semesters()
-    {
-        return $this->belongsTo('App\Semester');
-    }
-
+ 
      public function programmes()
     {
-        return $this->belongsTo('App\Programme');
+        return $this->hasMany('App\Programme');
     }
 
      public function courses()
     {
-        return $this->belongsTo('App\Course');
+        return $this->hasMany('App\Course');
+    }
+
+     public function semesters()
+    {
+        return $this->hasMany('App\Semester');
     }
 }

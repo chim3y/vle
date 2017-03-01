@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Course extends Model
 {
 
@@ -18,20 +19,25 @@ class Course extends Model
     
    } 
 
-public function semester(){
-      return $this->belongsTo(Semester::class);
+public function semesters(){
+      return $this->belongsToMany(Semester::class,'course_programme','course_id','semester_id')->withPivot('programme_id','elective','selected')->withTimestamps();
     
    } 
 
   public function programmes(){
-      return $this->belongsToMany(Programme::class)->withPivot('semester_taken','elective','selected','tutor_id')->withTimestamps();
+      return $this->belongsToMany(Programme::class,'course_programme','course_id','programme_id')->withPivot('course_id','elective','selected')->withTimestamps();
     }
     
 
 
   public function course_programme(){
 
-    return $this->hasMany(Course_Programme::class)->withPivot('semester_taken','elective','selected','tutor_id')->withTimestamps();
+    return $this->belongsTo(Course_Programme::class);
   }
  
+ public function contents(){
+      return $this->hasMany(Content::class);
+    
+   }    
+
 }
