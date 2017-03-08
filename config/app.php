@@ -165,6 +165,7 @@ return [
         'Yajra\Datatables\DatatablesServiceProvider',
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
     
         
      
