@@ -16,7 +16,8 @@
 
  <div class="row">
  <div class="form-group">
- {!! Form::label('image','Upload Image',['class'=>'col-sm-3 control-label']) !!}
+ {!! Form::label('image','Upload Image:',['class'=>'col-sm-3 control-label']) !!}
+ 
 <div class="col-sm-6">
 {!! Form::file('image') !!}
 </div>
@@ -48,7 +49,7 @@
 <div class="form-group"> 
 {!! Form::label('programme_id','Programme Name:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-<select class="select2-multi form-control" name="programme_id" multiple="multiple"> 
+<select class="select2-multi form-control" name="programme_id[]" multiple="multiple"> 
 @foreach($programmes as $programme)
 <option value="{{$programme->id}}"> 
 {{$programme->programme_name}}
@@ -70,11 +71,14 @@
 </div>
 <br/>
 
+
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('semester_id','Semester:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
 <select class="form-control" name="semester_id">
+<option selected disabled>Please select one semester</option>
 @foreach($semesters as $semester)
 <option value="{{$semester->id}}"> 
 {{$semester->semester_name}}
@@ -85,6 +89,7 @@
 </div>
 </div>
 <br/>
+
 
 <br/>
 <div class="row">

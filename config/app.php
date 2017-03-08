@@ -165,6 +165,9 @@ return [
         'Yajra\Datatables\DatatablesServiceProvider',
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+    
+        
+     
         
         /*
          * Package Service Providers...

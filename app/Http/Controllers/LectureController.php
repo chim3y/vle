@@ -3,26 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Content;
-use App\Http\Requests\ContentRequest;
+use App\Http\Requests\LectureRequest;
 use Session;
+use App\Lecture;
 
-class ContentController extends Controller
+
+class LectureController extends Controller
 {
-   public function __construct() {
-    
-    $this->middleware('auth');   
-}
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
   
-    public function create()
-    {   
-            return view('contents.create');
+    
+    public function create($id)
+    {    
+        $content_id=$id;
+        return view('lectures.create', compact('content_id'));
     }
 
     /**
@@ -31,19 +29,23 @@ class ContentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ContentRequest $request)
+    public function store(LectureRequest $request)
     {
-        $content= new Content();
-        $content->name = $request->name;
-        $content->description = $request->description;
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
-       
-        $content->save();
+        $lecture= new Lecture();
+        $lecture->lecture_name = $request->lecture_name;
+        $lecture->description = $request->description;
+        $lecture->document = $request->document;
 
-    
-        return redirect('/courses/'.$content->course_id);
+        foreach (session('course_id') as $course_id) {
+           $lecture->course_id= $course_id;
+
+        }
+        
+       $lecture->content_id=$request->content_id;
+       $lecture->save();
+
+
+        return redirect('/courses/'.$lecture->course_id);
     }
 
     /**
@@ -52,7 +54,10 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -85,13 +90,6 @@ class ContentController extends Controller
      */
     public function destroy($id)
     {
-        $content= Content::findOrFail($id);
-        $content->delete();
-
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
-         return redirect('/courses/'.$content->course_id);
-   
+        //
     }
 }

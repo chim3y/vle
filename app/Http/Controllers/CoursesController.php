@@ -7,6 +7,7 @@ use App\Course;
 use App\Programme;
 use App\Semester;
 use App\Course_Programme;
+use App\Content;
 use Image;
 use Storage;
 use Auth;
@@ -88,7 +89,7 @@ public function __construct() {
         $image=$request->file('image');
         $filename=time(). '.' .$image->getClientOriginalExtension();
         $location=public_path('images/courses/'.$filename);
-        Image::make($image)->resize(100, 100)->save($location);
+        Image::make($image)->resize(150, 150)->save($location);
         $course->image=$filename;
         }
         $course->user_id = Auth::user()->id;
@@ -97,24 +98,23 @@ public function __construct() {
         $course->credits=$request->credits;
         $course->description=$request->description;
         $course->save();
-
        
-        $semester_id= $request->semester_id;
-        $programme_id= $request->programme_id; 
-       
-         
-         $course->semesters()->attach($semester_id, array('programme_id'=>$programme_id));
-         $course->semesters()->attach($semester_id, array('programme_id'=>$programme_id));
-        
+       $semester_id= $request->semester_id;
+        $programme_id= $request->programme_id;     
+ 
+ $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
+    
         Session::flash('success', 'This course was successfully created');
         return redirect('courses');
        
     }
-  
-    public function show($id){
-       $course = Course::with("semesters.programmes","user")->find($id)->join("contents",'content_id','=','contents.id');
 
-       return view('courses.show')->withCourse($course);
+    public function show($id){
+       $course = Course::with("semesters","programmes","user","contents.lectures")->find($id);
+      $course_id= ["course_id"=>$course->id];
+      session()->put('course_id',$course_id);
+  
+      return view('courses.show')->withCourse($course);
     }
 
 
@@ -157,12 +157,15 @@ public function __construct() {
         $course->description=$request->description;
         $course->save();
         
-        $semester_id= $request->semester_id;
-        $programme_id= $request->programme_id; 
-       
-     
-         $course->semesters()->attach($semester_id, array('programme_id'=>$programme_id));
-     
+          // Operation on course_programme table2
+      
+         $semester_id= $request->semester_id;
+        $programme_id= $request->programme_id;     
+ 
+ $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
+           
+    
+        
     
         Session::flash('success', 'This course was successfully edited');
         return redirect('courses');

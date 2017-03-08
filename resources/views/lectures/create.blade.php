@@ -1,7 +1,7 @@
 
 @extends('layouts.index')
-@section('title', 'Content| Create')
-@section('main_title', 'Content')
+@section('title', 'Lecture| Create')
+@section('main_title', 'Lecture')
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
 @section ('content')
@@ -9,17 +9,21 @@
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::open(['url'=>'contents', 'files'=>'true']) !!}
+{!! Form::open(['url'=>'lectures', 'files'=>'true']) !!}
 
 
  <div class="well" style="background-color: white">
 
 <div class="row">
-<div class="form-group"> 
+<div class="form-group">
 
-{!! Form::label('name','Content Name*',['class'=>'col-sm-3 control-label']) !!}
+
+
+{{ Form::hidden('content_id', $content_id) }}
+
+{!! Form::label('lecture_name','Lecture Name*',['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('name',null, ['class'=>'form-control']) !!}
+{!! Form::text('lecture_name',null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>
@@ -38,7 +42,7 @@
 <div class="row">
 <div class="form-group">
 <div class="col-lg-5 col-sm-offset-2">
-{{Form::submit('Add New Content', ['class'=>'btn btn-primary'])}}
+{{Form::submit('Add New Lecture', ['class'=>'btn btn-primary'])}}
 </div>
 </div>
 </div>

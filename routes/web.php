@@ -43,8 +43,15 @@ Route::resource('/courses', 'CoursesController');
 Route::resource('semesters', 'SemesterController');
 
 //--Contents --//
-Route::resource('contents', 'ContentController', ['except'=>['index']]);
+Route::get('contents/{id}/edit', ['as' => 'contents.edit', 'uses' => 'ContentController@show']);
+Route::resource('contents', 'ContentController', ['except'=>['index', 'show']]);
 
+//--Lectures--//
+Route::get('contents/{id}/lectures/create', 'LectureController@create');
+Route::post('lectures', 'LectureController@store');
+Route::get('lectures/{id}/edit', 'LectureController@edit');
+Route::post('contents/{id}/edit', 'LectureController@update');
+Route::get('contents/{id}', 'LectureController@destroy');
 
 //--Users --//
 Route::get('/users', array('as' => 'users', 'uses' => 'UsersController@index'));

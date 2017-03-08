@@ -140,25 +140,6 @@
 </div>
 <br/>
 
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('programme_name','Programme Name*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('programme_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('semester_id','Semester Number*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::select('semester_id',$semesters, null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
 
 <div class="page-header"> Address Details </div>
 

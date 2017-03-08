@@ -69,7 +69,9 @@
 <div class="form-group"> 
 {!! Form::label('semester_id','Semesters:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{{ Form::select('semester_id',$semesters,null, ['class'=>'form-control']) }}
+
+
+{{ Form::select('semester_id',$semesters,null, ['class'=>'form-control', 'placeholder'=>'Please select one semester']) }}
 
 </select>
 </div>
@@ -77,7 +79,7 @@
 </div>
 <br/>
 
-<br/>
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('description','Desription', ['class'=>'col-sm-3 control-label']) !!}
@@ -153,7 +155,7 @@
 <script type="text/javascript">
   $(".select2-multi").select2();
    $(".select2-multi").select2().val({!! json_encode($course->programmes()->getRelatedIds()) !!}).trigger('change');
-</script>
+  </script>
 @endpush
 
 @endsection

@@ -1,0 +1,40 @@
+button.delete {
+    display: none;
+}
+
+.container:hover button.delete {
+    display: inline;
+}
+
+button.edit {
+    display: none;
+}
+
+.container:hover button.edit {
+    display: inline;
+}
+
+
+button.create {
+    display: none;
+}
+
+.container:hover button.create {
+    display: inline;
+}
+
+ul.menu {
+    display: none;
+}
+
+.container:hover ul.menu {
+    display: inline;
+}
+
+li.menuitem {
+    display: none;
+}
+
+.container:hover li.menuitem {
+    display: inline;
+}

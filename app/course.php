@@ -40,4 +40,9 @@ public function semesters(){
     
    }    
 
+  public function lectures(){
+      return $this->hasMany(lecture::class);
+    
+   } 
+
 }
