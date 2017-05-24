@@ -10,6 +10,23 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
 
+              
+                     <div class="form-group{{ $errors->has('role_name') ? ' has-error' : '' }}">
+                            <label for="role_id" class="col-md-4 control-label"> Register as: </label>
+
+                            <div class="col-md-6">
+                                <select class="form-control" name="role_id">
+                                <option selected disabled>Please register as</option>
+                                @foreach($roles as $role)
+                                <option value="{{$role->id}}"> 
+                                {{$role->role_name}}
+                                </option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>
 

@@ -45,7 +45,7 @@ class LectureController extends Controller
        $lecture->save();
 
 
-        return redirect('/courses/'.$lecture->course_id);
+        return redirect('/admin/courses/'.$lecture->course_id);
     }
 
     /**

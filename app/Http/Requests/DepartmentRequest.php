@@ -26,7 +26,7 @@ class DepartmentRequest extends FormRequest
         return [
             'department_code'=>'required',
             'department_name'=>'required | min:6',
-            'tutor_id'=>'required'
+            'user_id'=>'required'
 
         ];
     }

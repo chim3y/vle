@@ -7,11 +7,11 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Hash;
 use Image;
+use Auth;
 
 class UsersController extends Controller
 {  
    
-
 
     const Student='student';
     const Tutor='tutor';
@@ -20,6 +20,16 @@ class UsersController extends Controller
         self::Student=>'student',
         self::Tutor=>'tutor',
     ];
+    
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+    public function showDashboard(){
+        return view('users.dashboard');
+    }
 
     public function isStudent ()
     {

@@ -10,18 +10,26 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" >
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+   <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="../../plugins/datepicker/datepicker3.css">
+  <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<!-- CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+
+
   @yield('stylesheets')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -62,15 +70,16 @@
            <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs"> {{ Auth::user()->name}}  </span>
+              <span class="hidden-xs">   </span>
             </a>
 
             <ul class="dropdown-menu">
                 <li class="user-header">
                 <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                 <p>
-                    {{ Auth::user()->name}} 
-                  <small>ADMIN</small>
+                @yield('name')
+               
+                  <small>@yield('role')</small>
                 </p>
                 </li>
           <li class="user-footer">
@@ -79,7 +88,7 @@
                 </div>
                 <div class="pull-right">
 
-                 <a href="{{ url('/logout') }}" class="btn btn-default btn-flat"
+                 <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
                  
                                  onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
@@ -87,7 +96,7 @@
                                 </a>
 
                   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
+                                           {{ csrf_field() }}
                    </form>
                 </div>
                </li>
@@ -120,7 +129,7 @@
      <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview">
-          <a href="/dashboard">
+          @yield('dashboard_link')
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
 
@@ -163,47 +172,29 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
-<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../../bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/bootstrap/js/bootstrap.min.js"></script>
 <!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+
+<script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+
+<script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
-<!-- bootstrap datepicker -->
-<script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
 
+<script src="/dist/js/app.min.js"></script>
 
-<!-- Page script -->
 <script>
-  $(function () {
-    //Initialize Select2 Elements
-   
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    });
-
-
-  });
+    window.Laravel = <?php echo json_encode([
+        'csrfToken' => csrf_token(),
+    ]); ?>
 </script>
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-   
-    //Date picker
-    $('#datepicker1').datepicker({
-      autoclose: true
-    });
 
-
-  });
-</script>
 @stack('scripts')
 
 

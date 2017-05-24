@@ -14,10 +14,15 @@ class Course extends Model
     ];
 
 
-  public function user(){
-      return $this->belongsTo(User::class);
+ public function admin(){
+      return $this->belongsTo(Admin::class);
     
    } 
+ 
+ public function user(){
+      return $this->belongsTo(User::class);
+    
+} 
 
 public function semesters(){
       return $this->belongsToMany(Semester::class,'course_programme','course_id','semester_id')->withPivot('programme_id','elective','selected')->withTimestamps();
@@ -45,4 +50,8 @@ public function semesters(){
     
    } 
 
+  public function quizes(){
+      return $this->hasMany(Quiz::class);
+    
+   } 
 }

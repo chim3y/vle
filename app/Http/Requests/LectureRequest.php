@@ -25,6 +25,9 @@ class LectureRequest extends FormRequest
     {
         return [
            'lecture_name'=>'required | max:255',
+           'document'=> 'mimes:pdf, doc, docx',
         ];
     }
+
+
 }

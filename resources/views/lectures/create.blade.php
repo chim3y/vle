@@ -17,8 +17,6 @@
 <div class="row">
 <div class="form-group">
 
-
-
 {{ Form::hidden('content_id', $content_id) }}
 
 {!! Form::label('lecture_name','Lecture Name*',['class'=>'col-sm-3 control-label']) !!}
@@ -56,7 +54,6 @@
     <li> {{ $error}} </li>
     @endforeach
     </ul>
-
 @endif
 
 </div>

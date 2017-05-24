@@ -60,6 +60,11 @@
                             </div>
                         </div>
                     </form>
+                    <div class="row">
+                    <div class="col-md-offset-1">
+                    <a href="{{ URL::route('admin.login') }}" style="color:black"> Admin Login </a> 
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>

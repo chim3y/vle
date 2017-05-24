@@ -20,5 +20,8 @@ class Content extends Model
       return $this->hasMany(lecture::class);
     
    } 
-
+public function quizes(){
+      return $this->hasMany(Quiz::class);
+    
+   } 
 }
