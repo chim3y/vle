@@ -12,9 +12,7 @@
 
 @section('role', 'Tutor')
 
-@section('link_dashboard')
-<a href='/tutor/dasboard'> Dashboard </a>
-@endsection
+
  <!-- Content Wrapper. Contains page content -->
      <!-- Main content -->
     <section class="content">

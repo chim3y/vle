@@ -56,7 +56,7 @@ return Datatables::of($tutor)
     $tutor=Tutor::with('user')->where('isApproved','=','2')->get();
 
 return Datatables::of($tutor)
-            ->addColumn('action', function ($user) {
+            ->addColumn('action', function ($tutor) {
                 return 
                 '<form action="{{ route(\'admin.tutors.update\', $tutor->id)}}" method="PATCH"> 
                     <input type = "hidden" name = "isApproved" value = "1">
@@ -104,6 +104,7 @@ return Datatables::of($tutor)
        $tutor= Tutor::findorfail($id);
       
        return view('admin.tutors.edit', compact('tutor'));
+
     }
 
    
@@ -111,10 +112,24 @@ return Datatables::of($tutor)
     public function update($id, TutorRequest $request)
    {
 
-dd('I am approved');
+  
     $tutor = Tutor::findOrFail($id);
-    $tutor->isApproved= $request->Input::get('isApproved');
+     $data = Input::all();
+
+    
+
+     if(isset($data['approve'])){
+         $tutor->isApproved= $request->Input::get('isApproved');
+
     $tutor->save();
+    }
+    if(isset($data['deny'])){
+          $tutor->isApproved= $request->Input::get('isApproved');
+
+    $tutor->save();
+    }
+
+  
       
 
    return redirect()->route('admin.tutors');
@@ -122,8 +137,7 @@ dd('I am approved');
     public function destroy($id)
    {
 
-    
-dd('I am approved');
+
     $tutor = Tutor::findOrFail($id);
 
     $tutor->delete();

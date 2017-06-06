@@ -14,10 +14,13 @@ use App\Admin;
 use Image;
 use Storage;
 use Auth;
+use Hash;
 use Session;
 
 class CoursesController extends Controller
 {
+
+
 
  public function index()
     {
@@ -51,7 +54,6 @@ return Datatables::of($course)
                   .$course->id.'"> '.$course->course_name.'</a>';
            }) 
 ->editColumn('name', function ($course) {
-
 if (is_null($course->user_id)) {
   $admin=Admin::where('id', '=', $course->admin_id)->first();
   $admin_name=$admin->name;
@@ -63,9 +65,7 @@ else{
   return 'Tutor: '. ucfirst(trans($tutor_name));
 }
     }) 
-
 ->make(true); 
-
       
    }
 
@@ -90,13 +90,19 @@ else{
         Image::make($image)->resize(150, 150)->save($location);
         $course->image=$filename;
         }
+        
+       
         $course->admin_id = Auth::guard('admin')->user()->id;
+
+   
         $course->course_name=$request->course_name;
         $course->course_code=$request->course_code;
         $course->credits=$request->credits;
+         $course->enrollment_key=Hash::make($request->enrollment_key);
         $course->description=$request->description;
         $course->save();
        $semester_id= $request->semester_id;
+
         $programme_id= $request->programme_id; 
 
  $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
@@ -108,9 +114,10 @@ else{
     }
 
     public function show($id){
-       $course = Course::with("semesters","programmes","user","admin","contents.lectures")->find($id);
+       $course = Course::with("semesters","programmes","user","admin","contents.lectures", "contents.assignments")->find($id);
 
-      $course_id= ["course_id"=>$course->id];
+      $course_id= $course->id;
+
       session()->put('course_id',$course_id);
   
       return view('admin.courses.show')->withCourse($course);
@@ -118,20 +125,15 @@ else{
 
 
      public function edit($id){
-       $programmes=Programme::all();
-       $programmes2=array();
-       foreach ($programmes as $programme) {
-         $programmes2[$programme->id] = $programme->programme_name;
-       }
-
-       $semesters=Semester::all();
-       $semesters2=array();
-       foreach ($semesters as $semester) {
-         $semesters2[$semester->id] = $semester->semester_name;
-       }
-       $course= Course::findorfail($id);
       
-       return view('admin.courses.edit', compact('course'))->withProgrammes($programmes2)->withSemesters($semesters2);
+       $course_programme= Course_Programme::where('course_id','=', $id)->get();
+     
+        $course= Course::findorfail($id);
+         $programmes= Programme::all();
+       
+    $semesters = Semester::all();
+ 
+       return view('admin.courses.edit', compact('course', 'course_programme'))->withProgrammes($programmes)->withSemesters($semesters);
     }
 
     public function update(CourseRequest $request, $id){
@@ -154,17 +156,19 @@ else{
         $course->course_code=$request->course_code;
         $course->credits=$request->credits;
         $course->description=$request->description;
+        $course->enrollment_key=Hash::make($request->enrollment_key);
         $course->save();
         
           // Operation on course_programme table2
       
          $semester_id= $request->semester_id;
+
         $programme_id= $request->programme_id;     
- 
- $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
+
+$course->programmes()->sync([$programme_id=>['semester_id'=>$semester_id]]);
            
         Session::flash('success', 'This course was successfully edited');
-        return redirect('admin.courses');
+        return redirect('/admin/courses');
     }
   
   public function destroy($id)

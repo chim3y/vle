@@ -55,7 +55,7 @@ class UsersController extends Controller
         }
         $user->name=$request->name;
         $user->email=$request->email;
-        $user->password=hash::make($request->password);
+        $user->password=Hash::make($request->password);
         $user->created_at =$request->created_at;
         $user->updated_at= $request->updated_at;
         $user->save();

@@ -64,6 +64,7 @@ class DepartmentsController extends Controller
        $department= Department::findorfail($id);
        $tutors=Tutor::with('user')->where('isApproved','=','1')->get();
        return view('admin.department.edit', compact('department', 'tutors'));
+
     }
 
     public function update($id, DepartmentRequest $request){

@@ -7,7 +7,7 @@ class Course_Programme extends Model
 {
    protected $table = 'course_programme';
     protected $fillable = [
-    'course_id', 'programme_id','created_at', 'updated_at'
+    'course_id', 'programme_id','created_at', 'updated_at', 'enrollment_key'
     ];
 
  
@@ -25,4 +25,6 @@ class Course_Programme extends Model
     {
         return $this->hasMany('App\Semester');
     }
+
+
 }

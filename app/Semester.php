@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Semester extends Model
 {    
 	protected $table = 'semesters';
-	protected $fillable = [
+	protected $fillable = [ 
     'semester_name'];
 
 
@@ -21,7 +21,7 @@ public function programmes(){
 
   public function course_programme(){
 
-    return $this->belongsTo(Course_Programme::class)->withPivot('elective', 'selected')->withTimestamps;
+    return $this->belongsTo(Course_Programme::class)->withPivot('elective', 'selected')->withTimestamps();
   }
     
 }

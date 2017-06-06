@@ -5,6 +5,9 @@
 @section ('current_page', 'Create')
 @section('stylesheets')
 {!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
+
+  <script>tinymce.init({ selector:'textarea' });</script>
 @endsection
 
 @section ('content')
@@ -29,7 +32,7 @@
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('course_name','Course Name*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
+<div class="col-sm-8 ">
 {!! Form::text('course_name',null, ['class'=>'form-control']) !!}
 </div>
 </div>
@@ -39,7 +42,7 @@
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('course_code','Course Code*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
+<div class="col-sm-8">
 {!! Form::text('course_code',null, ['class'=>'form-control']) !!}
 </div>
 </div>
@@ -48,9 +51,10 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('programme_id','Programme Name:', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('programme_id','Programme:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-<select class="select2-multi form-control" name="programme_id[]" multiple="multiple"> 
+<select class="form-control" name="programme_id">
+<option selected disabled>Please select one Programme</option>
 @foreach($programmes as $programme)
 <option value="{{$programme->id}}"> 
 {{$programme->programme_name}}
@@ -62,15 +66,19 @@
 </div>
 <br/>
 
+
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('credits','Credits*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
+<div class="col-sm-8 ">
 {!! Form::text('credits',null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>
 <br/>
+
+
 
 
 
@@ -92,12 +100,15 @@
 <br/>
 
 
+
+
+
 <br/>
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('description','Desription', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('description', null, ['class'=>'form-control']) !!}
+<div class="col-sm-8 ">
+{!! Form::textarea('description',null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>
@@ -106,8 +117,18 @@
 
 <div class="row">
 <div class="form-group"> 
+{!! Form::label('enrollment_key','Enrollment Key', ['class'=>'col-sm-3 control-label']) !!}
+<div class="col-sm-8 ">
+<input type="password" class="form-control" name="enrollment_key">
+</div>
+</div>
+</div>
+<br/>
+
+<div class="row">
+<div class="form-group"> 
 {!! Form::label('room_no','Class Number', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
+<div class="col-sm-8 ">
 {!! Form::text('class_no', null, ['class'=>'form-control']) !!}
 </div>
 </div>
@@ -118,7 +139,7 @@
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('building_no','Building Number', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
+<div class="col-sm-8 ">
 {!! Form::text('building_no',null, ['class'=>'form-control']) !!}
 </div>
 </div>
@@ -169,6 +190,43 @@
 {!! Html::script('/js/select2.min.js') !!}
 
 <script type="text/javascript">
+
   $(".select2-multi").select2();
+</script>
+<script type="text/javascript" src="{{ URL::to('js/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+<script>
+var editor_config = {
+path_absolute : "{{ URL::to('') }}/",
+selector : "textarea",
+plugins: [
+"advlist autolink lists link  charmap print preview hr anchor pagebreak",
+"searchreplace wordcount visualblocks visualchars code fullscreen",
+"insertdatetime nonbreaking save table contextmenu directionality",
+"emoticons template paste textcolor colorpicker textpattern"
+],
+toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+relative_urls: false,
+file_browser_callback : function(field_name, url, type, win) {
+var x = window.innerWidth || document.documentElement.clientWidth || document.getElementByTagName('body')[0].clientWidth;
+var y = window.innerHeight|| document.documentElement.clientHeight|| document.grtElementByTagName('body')[0].clientHeight;
+var cmsURL = editor_config.path_absolute+'laravel-filemanaget?field_name'+field_name;
+if (type = 'image') {
+cmsURL = cmsURL+'&type=Images';
+} else {
+cmsUrl = cmsURL+'&type=Files';
+}
+
+tinyMCE.activeEditor.windowManager.open({
+file : cmsURL,
+title : 'Filemanager',
+width : x * 0.8,
+height : y * 0.8,
+resizeble : 'yes',
+close_previous : 'no'
+});
+}
+};
+
+tinymce.init(editor_config);
 </script>
 @endpush

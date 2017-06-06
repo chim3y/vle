@@ -13,4 +13,9 @@ public function user(){
       return $this->belongsTo(User::class);
     
    } 
+
+ public function course(){
+         return $this->belongsToMany(Course::class,'course_student','course_id','student_id')->withTimestamps();
+    
+   } 
 }

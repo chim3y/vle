@@ -34,6 +34,7 @@
 <br/>
 
 
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('user_id','HOD Name*', ['class'=>'col-sm-3 control-label']) !!}
@@ -41,7 +42,7 @@
   <select class="form-control" name="user_id">
   <option value="" selected> Please select HOD: </option>
     @foreach($tutors as $item)
-      <option value="{{$item->user_id}}">
+      <option value="{{$item->user_id}}" {{ ($item->user_id == $department->user_id) ? 'selected=selected' : '' }}>
 
       {{$item->user->name}}</option>
     @endforeach

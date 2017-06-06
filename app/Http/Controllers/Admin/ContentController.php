@@ -34,9 +34,9 @@ class ContentController extends Controller
         $content= new Content();
         $content->name = $request->name;
         $content->description = $request->description;
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
+     
+           $content->course_id= session('course_id') ;
+  
        
         $content->save();
 

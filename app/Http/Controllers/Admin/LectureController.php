@@ -32,7 +32,8 @@ class LectureController extends Controller
      */
     public function store(LectureRequest $request, $contentId)
     {
-    
+        $lecture = new Lecture;
+        if($request->hasfile('document')){
         $destinationPath = '';
         $filename = '';
         $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
@@ -43,22 +44,26 @@ class LectureController extends Controller
         }
         $filename = time(). '.' .$file->getClientOriginalName();
         $file->move($destinationPath, $filename);
-        if ($request->hasFile('document')) {
-        $lecture = new Lecture;
+        $lecture->document = $filename;
+        }
+        else{
+            $lecture->document = $lecture->document; 
+        }
         $lecture->lecture_name= $request->lecture_name;
         $lecture->description = $request->description;
-        $lecture->document = $filename;
+        
         $lecture->content_id  = $contentId;
-         foreach (session('course_id') as $course_id) {
-          $lecture->course_id= $course_id;
-        }
+
+    
+          $lecture->course_id= session('course_id');
+     
     
          $lecture->save();
 
         return redirect('/admin/courses/'.$lecture->course_id);
        } 
     
-    }
+    
 
     /**
      * Display the specified resource.
@@ -151,11 +156,12 @@ class LectureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($contentId, $id)
+    public function destroy($id)
     {
          $lecture= Lecture::findOrFail($id);
+        if(!is_null($lecture)) {
         $lecture->delete();
-
+        }
         foreach (session('course_id') as $course_id) {
            $lecture->course_id= $course_id;
 

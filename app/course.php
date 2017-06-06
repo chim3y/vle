@@ -10,7 +10,7 @@ class Course extends Model
 
     protected $table = 'courses';
     protected $fillable = [
-    'course_name', 'course_code', 'credits', 'description'
+    'course_name', 'course_code', 'credits', 'description', 'enrollment_key'
     ];
 
 
@@ -54,4 +54,12 @@ public function semesters(){
       return $this->hasMany(Quiz::class);
     
    } 
+
+   public function student()
+    {
+         return $this->belongsToMany(Student::class, 'course_student','student_id', 'course_id')->withTimestamps();
+    }
+
+
+
 }

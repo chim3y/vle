@@ -10,22 +10,28 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables/dataTables.bootstrap.css">
+
    <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+  
   <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+
+ 
+
 
   @yield('stylesheets')
 </head>
@@ -193,9 +199,13 @@
 
 <!-- ./wrapper -->
 
+
 <!-- jQuery 2.2.3 -->
 
-<script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/plugins/jQuery/jquery-3.1.1.min.js"></script>
+
+
+
 <!-- Bootstrap 3.3.6 -->
 
 <script src="/bootstrap/js/bootstrap.min.js"></script>
@@ -210,6 +220,8 @@
 <!-- AdminLTE App -->
 
 <script src="/dist/js/app.min.js"></script>
+<!-- bootstrap datepicker -->
+<script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
 
 <script>
     window.Laravel = <?php echo json_encode([

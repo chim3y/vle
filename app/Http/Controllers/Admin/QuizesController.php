@@ -48,10 +48,9 @@ class QuizesController extends Controller
         $quiz= new Quiz();
         $quiz->quiz_name = $request->quiz_name;
         $quiz->description = $request->description;
-       
-       foreach (session('course_id') as $course_id) {
-        $quiz->course_id= $course_id;
-       }
+    
+        $quiz->course_id= session('course_id');
+     
         
 
        $content=Content::findorfail($contentId);

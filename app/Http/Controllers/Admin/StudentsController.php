@@ -78,7 +78,7 @@ return Datatables::of($student)
     }
 
      public function store(UserRequest $request){
-        $user = new User;
+        $user = new Student;
         if($request->hasfile('image')){
         $image=$request->file('image');
         $filename=time(). '.' .$image->getClientOriginalExtension();
@@ -99,21 +99,17 @@ return Datatables::of($student)
 
   
      public function edit($id){
-       $user= User::findorfail($id);
+       $user= Student::findorfail($id);
       
        return view('admin.students.edit', compact('user'));
     }
 
     public function update($id, UserRequest $request){
-        $user = User::findorfail($id);
-         if($request->hasfile('image')){
-        $image=$request->file('image');
-        $filename=time(). '.' .$image->getClientOriginalExtension();
-        $location=public_path('images/users'.$filename);
-        Image::make($image)->resize(100, 100)->save($location);
-        $user->image=$filename;
-        }
+        $user = Student::findorfail($id);
+         
+        $student->isApproved= $request->Input::get('isApproved');
         $user->update($request->all());
+
 
         return redirect('admin.students');
     }
@@ -132,7 +128,7 @@ return Datatables::of($student)
 public function show($id)
     {
 
-        $user = User::findOrFail($id);
+        $user = Student::findOrFail($id);
         return view('admin.students.show', compact('user'));
     }
 

@@ -20,6 +20,10 @@ class Content extends Model
       return $this->hasMany(lecture::class);
     
    } 
+ public function assignments(){
+      return $this->hasMany(Assignment::class);
+    
+   } 
 public function quizes(){
       return $this->hasMany(Quiz::class);
     

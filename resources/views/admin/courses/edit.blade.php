@@ -5,6 +5,9 @@
 @section ('current_page', 'Edit')
 @section('stylesheets')
 {!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
+
+  <script>tinymce.init({ selector:'textarea' });</script>
 @endsection
 
 @section ('content')
@@ -46,11 +49,25 @@
 </div>
 <br/>
 
+
+@foreach($course_programme as $c_p)
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('programme_id','Programme Name:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{{ Form::select('programme_id[]',$programmes,null, ['class'=>'form-control select2-multi', 'multiple'=>'multiple']) }}
+
+  <select class="form-control" name="programme_id">
+  <option value="" selected> Please select Programme</option>
+    @foreach($programmes as $programme)
+
+      <option value="{{$programme->id}}" {{ ($programme->id == $c_p->programme_id) ? 'selected=selected' : '' }}>
+
+      {{$programme->programme_name}}</option>
+    @endforeach
+  </select>
+
+
 
 </div>
 </div>
@@ -69,25 +86,43 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('semester_id','Semesters:', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('semester_id','Semester Name:', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
+  <select class="form-control" name="semester_id">
+  <option value="" selected> Please select Semester</option>
+    @foreach($semesters as $semester)
+      <option value="{{$semester->id}}" {{ ($semester->id == $c_p->semester_id) ? 'selected=selected' : '' }}>
 
-{{ Form::select('semester_id',$semesters,null, ['class'=>'form-control select2-multi', 'multiple'=>'multiple', 'placeholder'=>'Please select one semester']) }}
+      {{$semester->semester_name}}</option>
 
+ @endforeach
+  </select>
 
+ 
+</div>
+</div>
+</div>
+<br/>
+
+ @endforeach  
+
+<br/>
+<div class="row">
+<div class="form-group"> 
+{!! Form::label('description','Desription', ['class'=>'col-sm-3 control-label']) !!}
+<div class="col-sm-8 ">
+{!! Form::textarea('description',null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>
 <br/>
 
 
-
-
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('description','Desription', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('enrollment_key','Enrollment Key', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('description', null, ['class'=>'form-control']) !!}
+<input type="password" class="form-control" name="enrollment_key">
 </div>
 </div>
 </div>
@@ -153,9 +188,45 @@
 @endsection
 @push('scripts')
 {!! Html::script('/js/select2.min.js') !!}
+
 <script type="text/javascript">
+
   $(".select2-multi").select2();
- $('.select2-multi').select2().val({!! json_encode($course->programmes()->allRelatedIds()) !!}).trigger('change');
-$('.select2-multi').select2().val({!! json_encode($course->semester()->allRelatedIds()) !!}).trigger('change');
-  </script>
+</script>
+<script type="text/javascript" src="{{ URL::to('js/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+<script>
+var editor_config = {
+path_absolute : "{{ URL::to('') }}/",
+selector : "textarea",
+plugins: [
+"advlist autolink lists link  charmap print preview hr anchor pagebreak",
+"searchreplace wordcount visualblocks visualchars code fullscreen",
+"insertdatetime nonbreaking save table contextmenu directionality",
+"emoticons template paste textcolor colorpicker textpattern"
+],
+toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
+relative_urls: false,
+file_browser_callback : function(field_name, url, type, win) {
+var x = window.innerWidth || document.documentElement.clientWidth || document.getElementByTagName('body')[0].clientWidth;
+var y = window.innerHeight|| document.documentElement.clientHeight|| document.grtElementByTagName('body')[0].clientHeight;
+var cmsURL = editor_config.path_absolute+'laravel-filemanaget?field_name'+field_name;
+if (type = 'image') {
+cmsURL = cmsURL+'&type=Images';
+} else {
+cmsUrl = cmsURL+'&type=Files';
+}
+
+tinyMCE.activeEditor.windowManager.open({
+file : cmsURL,
+title : 'Filemanager',
+width : x * 0.8,
+height : y * 0.8,
+resizeble : 'yes',
+close_previous : 'no'
+});
+}
+};
+
+tinymce.init(editor_config);
+</script>
 @endpush

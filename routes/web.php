@@ -1,9 +1,16 @@
 <?php
 
+use App\Notifications\LecturePublished;
 
 
 Route::get('/', function () {
-    return view('index');
+	$user= App\User::whereHas('roles', function($q){
+    $q->where('role_name', 'Student');
+})->first();
+
+	$lecture=App\Lecture::first();
+
+   $user->notify(new LecturePublished($lecture));
 });
 
 Route::get('/contact', function () {
@@ -27,28 +34,53 @@ Auth::routes();
 //Tutors
 Route::prefix('tutor')->group(function(){
 	//tutor courses
-Route::get('/courses', array('as' => 'tutor.courses', 'uses' => 'tutor\CoursesController@index'));
-Route::get('/courses/getcoursesData', array('as' => 'tutor.coursesData', 'uses' => 'tutor\CoursesController@coursesData'));
-Route::get('/courses/create', array('as' => 'tutor.courses.create', 'uses' => 'tutor\CoursesController@create'));
-Route::post('/courses', array('as' => 'tutor.courses.store', 'uses' => 'tutor\CoursesController@store'));
-Route::get('/courses/{id}/edit', array('as' => 'tutor.courses.edit', 'uses' => 'tutor\CoursesController@edit'));
-Route::patch('/courses/{id}/edit', array('as' => 'tutor.courses.update', 'uses' => 'tutor\CoursesController@update'));
+Route::get('/courses', array('as' => 'tutor.courses', 'uses' => 'tutor\CoursesController@index',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
+Route::get('/courses/getcoursesData', array('as' => 'tutor.coursesData', 'uses' => 'tutor\CoursesController@coursesData',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
+Route::get('/courses/create', array('as' => 'tutor.courses.create', 'uses' => 'tutor\CoursesController@create',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
+Route::post('/courses', array('as' => 'tutor.courses.store', 'uses' => 'tutor\CoursesController@store',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
+Route::get('/courses/{id}/edit', array('as' => 'tutor.courses.edit', 'uses' => 'tutor\CoursesController@edit',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
+Route::patch('/courses/{id}/edit', array('as' => 'tutor.courses.update', 'uses' => 'tutor\CoursesController@update',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
 Route::get('/courses/{id}', 'tutor\CoursesController@show');
    //tutor dashboard
-Route::get('/dashboard', array('as'=>'tutor.dashboard','uses' => 'tutor\TutorController@showDashboard'));
+Route::get('/dashboard', array('as'=>'tutor.dashboard','uses' => 'tutor\TutorController@showDashboard',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']));
 //--Contents --//
-Route::get('/contents/{id}/edit', ['as' => 'tutor.contents.edit', 'uses' => 'tutor\ContentController@edit']);
-Route::patch('/contents/{id}/edit', ['as' => 'tutor.contents.update', 'uses' => 'tutor\ContentController@update']);
-Route::get('/contents/create', ['as' => 'tutor.contents.create', 'uses' => 'tutor\ContentController@create']);
-Route::post('/contents', ['as' => 'tutor.contents.store', 'uses' => 'tutor\ContentController@store']);
-Route::delete('/contents/{id}', ['as' => 'tutor.contents.delete', 'uses' => 'tutor\ContentController@destroy']);
+Route::get('/contents/{id}/edit', ['as' => 'tutor.contents.edit', 'uses' => 'tutor\ContentController@edit',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']]);
+Route::patch('/contents/{id}/edit', ['as' => 'tutor.contents.update', 'uses' => 'tutor\ContentController@update',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']]);
+Route::get('/contents/create', ['as' => 'tutor.contents.create', 'uses' => 'tutor\ContentController@create',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']]);
+Route::post('/contents', ['as' => 'tutor.contents.store', 'uses' => 'tutor\ContentController@store',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']]);
+Route::delete('/contents/{id}', ['as' => 'tutor.contents.delete', 'uses' => 'tutor\ContentController@destroy',
+	'middleware'=>'roles',
+	'roles'=>['Tutor']]);
 });
+
+Route::get('/admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 
 
 //-- Admin --//
-Route::prefix('admin')->group(function(){
-Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
-Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+Route::group(['prefix' => 'admin',  'middleware' => 'auth:admin'], function(){
 Route::get('/dashboard', 'Admin\AdminController@showDashboard')->name('admin.dashboard');
 //users
 Route::get('/users', array('as' => 'admin.users', 'uses' => 'Admin\UsersController@index'));
@@ -77,14 +109,13 @@ Route::patch('/students', 'Admin\StudentsController@update')->name('admin.studen
 Route::get('/students/{id}/{name}', ['as' => 'admin.students.show', 'uses' => 'Admin\StudentsController@show']);
 Route::post('/students/{id}/{name}', ['as' => 'admin.students.show', 'uses' => 'Admin\StudentsController@show']);
 Route::get('/students/{id}/{name}', ['as' => 'admin.students.edit', 'uses' => 'Admin\StudentsController@edit']);
-
+Route::patch('/students/{id}', ['as' => 'admin.students.update', 'uses' => 'Admin\StudentsController@update']);
 //role assignment
 Route::get('/roles/assign', array('as' => 'admin.role.assign', 'uses' => 'Admin\RoleController@assignRole'));
 
 //--Courses --//
 Route::get('/courses', array('as' => 'admin.courses', 'uses' => 'Admin\CoursesController@index'));
 Route::get('/courses/getcoursesData', array('as' => 'admin.coursesData', 'uses' => 'Admin\CoursesController@coursesData'));
-//Route::get('programmes/{id}/{course_name}', ['as' => 'admin.courses.show', 'uses' => 'Admin\CoursesController@show']);
 Route::get('/courses/create', 'Admin\CoursesController@create')->name('admin.courses.create');
 Route::post('/courses', 'Admin\CoursesController@store')->name('admin.courses.store');
 Route::get('/courses/{id}/edit', 'Admin\CoursesController@edit')->name('admin.courses.edit');
@@ -129,12 +160,16 @@ Route::get('/contents/{contentId}/lectures/create', ['as' => 'admin.contents.lec
 Route::post('/contents/{contentId}/lectures', ['as' => 'admin.contents.lectures.store', 'uses' => 'Admin\LectureController@store']);
 Route::get('/contents/{contentId}/lectures/{id}/edit', ['as' => 'admin.contents.lectures.edit', 'uses' => 'Admin\LectureController@edit']);
 Route::patch('/contents/{contentId}/lectures/{id}/edit', ['as' => 'admin.contents.lectures.update', 'uses' => 'Admin\LectureController@update']);
-Route::delete('/contents/{contentId}/lectures/{id}', ['as' => 'admin.contents.lectures.delete', 'uses' => 'Admin\LectureController@destroy']);
+Route::delete('/lectures/{id}', ['as' => 'admin.lectures.delete', 'uses' => 'Admin\LectureController@destroy']);
 Route::get('/lectures/{id}/{lecture_name}', ['as' => 'admin.lectures.show', 'uses' => 'Admin\LectureController@show']);
-Route::any('ViewerJS/{all?}', function(){
 
-    return View::make('ViewerJS.index');
-});
+//--assignments--//
+Route::get('/contents/{contentId}/assignments/create', ['as' => 'admin.contents.assignments.create', 'uses' => 'Admin\AssignmentController@create']);
+Route::post('/contents/{contentId}/assignments', ['as' => 'admin.contents.assignments.store', 'uses' => 'Admin\AssignmentController@store']);
+Route::get('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.edit', 'uses' => 'Admin\AssignmentController@edit']);
+Route::patch('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.update', 'uses' => 'Admin\AssignmentController@update']);
+Route::delete('/assignments/{id}', ['as' => 'admin.assignments.delete', 'uses' => 'Admin\AssignmentController@destroy']);
+Route::get('/assignments/{id}/{assignment_title}', ['as' => 'admin.assignments.show', 'uses' => 'Admin\AssignmentController@show']);
 
 
 //--videos--//
@@ -144,16 +179,25 @@ Route::get('/contents/{contentId}/videos/{id}/edit', ['as' => 'admin.contents.vi
 Route::patch('/contents/{contentId}/videos/{id}/edit', ['as' => 'admin.contents.videos.update', 'uses' => 'Admin\VideoController@update']);
 Route::delete('/contents/{contentId}/videos/{id}', ['as' => 'admin.contents.videos.delete', 'uses' => 'Admin\VideoController@destroy']);
 
-//--assignments--//
-Route::get('/contents/{contentId}/assignments/create', ['as' => 'admin.contents.assignments.create', 'uses' => 'Admin\LectureController@create']);
-Route::post('/contents/{contentId}/assignments', ['as' => 'admin.contents.assignments.store', 'uses' => 'Admin\AssignmentController@store']);
-Route::get('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.edit', 'uses' => 'Admin\AssignmentController@edit']);
-Route::patch('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.update', 'uses' => 'Admin\AssignmentController@update']);
-Route::delete('/contents/{contentId}/assignments/{id}', ['as' => 'admin.contents.assignments.delete', 'uses' => 'Admin\AssignmentController@destroy']);
+
 });
 
 
 
+//Student
+Route::prefix('student')->group(function(){
+
+//Dashboard
+Route::get('/dashboard', array('as'=>'student.dashboard','uses' => 'student\StudentController@showDashboard',
+	'middleware'=>'roles',
+	'roles'=>['Student']));
+//--Courses --//
+Route::get('/courses', array('as' => 'student.courses', 'uses' => 'student\CoursesController@index'));
+Route::get('/courses/getcoursesData', array('as' => 'student.coursesData', 'uses' => 'student\CoursesController@coursesData'));
+Route::get('/courses/{id}', array('as' => 'student.courses.show', 'uses' =>  'student\CoursesController@show'));
+Route::post('/courses/enroll', array('as' => 'student.courses.enroll', 'uses' => 'student\CoursesController@enroll'));
+
+//Route::get('programmes/{id}/{course_name}', ['as' => 'admin.courses.show', 'uses' => 'Admin\CoursesController@show']);
 //--Semesters --//
 Route::resource('semesters', 'admin\SemesterController');
 
@@ -168,7 +212,7 @@ Route::get('contents/{id}', 'LectureController@destroy');
 //--Quizes --//
 Route::resource('contents.quizes', 'QuizesController');
 
-
+});
 
 
 

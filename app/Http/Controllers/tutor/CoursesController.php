@@ -14,6 +14,7 @@ use Image;
 use Storage;
 use Auth;
 use Session;
+use Hash;
 
 class CoursesController extends Controller
 {
@@ -78,19 +79,20 @@ return Datatables::of($course)
         $course->image=$filename;
         }
         $course->user_id = Auth::user()->id;
-        $course->course_name=$request->course_name;
+       $course->course_name=$request->course_name;
         $course->course_code=$request->course_code;
         $course->credits=$request->credits;
+         $course->enrollment_key=Hash::make($request->enrollment_key);
         $course->description=$request->description;
         $course->save();
        $semester_id= $request->semester_id;
+
         $programme_id= $request->programme_id; 
 
  $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
- 
     
         Session::flash('success', 'This course was successfully created');
-        return redirect()->route('admin.courses');
+        return redirect()->route('tutor.courses');
   }
 
     public function show($id){
@@ -105,19 +107,14 @@ return Datatables::of($course)
 
      public function edit($id){
        $programmes=Programme::all();
-       $programmes2=array();
-       foreach ($programmes as $programme) {
-         $programmes2[$programme->id] = $programme->programme_name;
-       }
-
-       $semesters=Semester::all();
-       $semesters2=array();
-       foreach ($semesters as $semester) {
-         $semesters2[$semester->id] = $semester->semester_name;
-       }
-       $course= Course::findorfail($id);
-      
-       return view('tutor.courses.edit', compact('course'))->withProgrammes($programmes2)->withSemesters($semesters2);
+       $course_programme= Course_Programme::where('course_id','=', $id)->get();
+     
+        $course= Course::findorfail($id);
+         $programmes= Programme::all();
+       
+    $semesters = Semester::all();
+ 
+       return view('tutor.courses.edit', compact('course', 'course_programme'))->withProgrammes($programmes)->withSemesters($semesters);
     }
 
     public function update(CourseRequest $request, $id){
@@ -147,10 +144,10 @@ return Datatables::of($course)
          $semester_id= $request->semester_id;
         $programme_id= $request->programme_id;     
  
- $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
-           
+$course->programmes()->sync([$programme_id=>['semester_id'=>$semester_id]]);
+
         Session::flash('success', 'This course was successfully edited');
-        return redirect('tutor.courses');
+        return redirect('/tutor/courses');
     }
 
 

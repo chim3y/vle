@@ -129,7 +129,7 @@
      <ul class="sidebar-menu">
         <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview">
-          @yield('dashboard_link')
+          <a href="{{ URL::route('tutor.dashboard') }}"> 
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
 

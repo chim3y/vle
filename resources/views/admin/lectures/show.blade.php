@@ -21,9 +21,12 @@
 <div class="form-group">
 
 <body>
-    <input id="inputFiles" type="hidden" name="files[]" multiple="false">
+    <input id="inputFiles" type="file hidden" name="files[]" multiple="false">
     <div id="loaded-layout" style="width:100%;height:800px;"></div>
 </body>
+
+    <iframe src="https://docs.google.com/viewerng/viewer?   }}"></iframe>
+
 
 </div>
 </div>

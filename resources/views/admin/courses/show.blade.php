@@ -1,8 +1,8 @@
 @extends('layouts.index_admin')
-@section('title', 'Courses | "{{$course->course_name}}"')
+@section('title', 'Courses | Create')
 @section('main_title', 'Courses')
-@section('sub_title', '')
-@section ('current_page', 'Edit')
+@section('sub_title', 'View')
+@section ('current_page', 'View')
 
 @section('content')
 <br/>
@@ -121,7 +121,32 @@
     <button class="btn btn-link pull-right"  style="color:black; font-size:14px">  <a  href="{{ URL::route('admin.contents.lectures.edit', array('contentId'=> $content->id, 'id'=> $lecture->id )) }}" target="_self" style="color:black"> edit </a>  </button> 
  
 
-{!! Form::open(['action' => ['Admin\LectureController@destroy', 'contentId'=> $content->id, 'id'=> $lecture->id], 'method' => 'delete', 'style'=>' display:inline-block']) !!}
+{!! Form::open(['action' => ['Admin\LectureController@destroy', 'id'=> $lecture->id], 'method' => 'delete', 'style'=>' display:inline-block']) !!}
+    <button class="btn btn-link pull-right" style="color: black; font-size:14px"> delete </button>
+ {!! Form::close() !!}   
+</div>
+</div> 
+</div>
+</div>
+
+
+@endforeach
+<br/>
+@foreach($content->assignments as $assignment)
+
+<div class="row"> 
+
+<div class="col-sm-8 col-sm-offset-2"> 
+<div class="well well-sm">
+<div class="col-sm-4">
+<h5 style="display:inline-block"> <a href="{{ route('admin.assignments.show', [$assignment->id, str_slug($assignment->assignment_title)]) }}" style="color: black;" target="_self"> <strong>  {{ \Illuminate\Support\Str::upper($assignment->assignment_title ) }} </strong> </a></h5> 
+</div>
+
+<div class="col-sm-4"> 
+    <button class="btn btn-link pull-right"  style="color:black; font-size:14px">  <a  href="{{ URL::route('admin.contents.assignments.edit', array('contentId'=> $content->id, 'id'=> $assignment->id )) }}" target="_self" style="color:black"> edit </a>  </button> 
+ 
+
+{!! Form::open(['action' => ['Admin\AssignmentController@destroy', 'id'=> $assignment->id], 'method' => 'delete', 'style'=>' display:inline-block']) !!}
     <button class="btn btn-link pull-right" style="color: black; font-size:14px"> delete </button>
  {!! Form::close() !!}   
 </div>
@@ -131,7 +156,6 @@
 
 @endforeach
 @endforeach
-<br/>
 <div class="row">
 <div class="col-sm-1 col-sm-offset-1">
 <a href="{{url('/admin/contents/create')}}"  style="color: black" data-toggle="tooltip" title="Add Content">
