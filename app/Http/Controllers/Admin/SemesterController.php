@@ -23,7 +23,7 @@ class SemesterController extends Controller
     public function index()
     {
         $semesters =Semester::all();
-        return view('semesters.index')->withSemesters($semesters);
+        return view('admin.semesters.index')->withSemesters($semesters);
 
     }
 

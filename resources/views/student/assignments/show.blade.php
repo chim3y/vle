@@ -1,52 +1,99 @@
 
-@extends('layouts.index_admin')
-@section('title', 'Assignment | Create')
+@extends('layouts.index_tutor')
+@section('title', 'Assignment | View')
 @section('main_title')
-<i class=" fa fa-taks" aria-hidden="true"></i>  Assignment
+<i class="fa fa-tasks" aria-hidden="true"></i>
+Assignment
 @endsection
-@section('sub_title', 'Create')
-@section ('current_page', 'Create')
+@section('sub_title', 'View')
+@section ('current_page', 'View')
 @section('stylesheets')
 {!!Html::style('/css/select2.min.css')!!}
 {!! Html::script('/js/select2.min.js') !!}
 
   <script>tinymce.init({ selector:'textarea' });</script>
 @endsection
+
 @section ('content')
 <br/>
 
 <div class="row">
-<div class="col-sm-8 col-sm-offset-2" >
-
-{!! Form::open(['route'=>['admin.contents.assignments.store', $contentId],'method' => 'POST', 'style'=>' display:inline-block', 'files'=>'true' ]) !!}
-
- <div class="well" style="background-color: white">
+<div class="col-sm-10 col-sm-offset-1">
 
 <div class="row">
-<div class="form-group">
+<div class="panel panel-primary" style="border: 0;">
+<div class="panel-heading">
+<div class="row">
+
+<div class="col-sm-10">
+<h4> <b>  {{ \Illuminate\Support\Str::upper($assignment->assignment_title) }} </b> </h4>
+</div>
+
+</div>
+</div>
+
+<div class="panel-body">
+
+
+<div class="col-sm-12" >
+<br/>
+<br/>
+ {{ $assignment->description }} 
 
 
 
-{!! Form::label('assignment_title','Assignment Name*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('assignment_title',null, ['class'=>'form-control']) !!}
+</div>
+<hr style=" background-color: #f0f0f0;
+  width: 100%;
+  float: center;">
+<div class="row">
+<div class="form-group"> 
+
+<h4> {!! Form::label('start_date','Start Date',['class'=>'col-sm-3 control-label']) !!} </h4>
+
+<div class="col-sm-9">
+{{ $assignment->start_date }} 
+</div>
+</div>
+</div>
+
+
+<div class="row"> 
+<div class="form-group"> 
+<h4> {!! Form::label('due_date','Due Date',['class'=>'col-sm-3 control-label']) !!} </h4>
+<div class="col-sm-9">
+{{ $assignment->due_date }} 
+</div>
+</div>
+</div>
+
+<div class="row"> 
+<div class="form-group"> 
+<h4> {!! Form::label('due_date','Due Date',['class'=>'col-sm-3 control-label']) !!} </h4>
+<div class="col-sm-9">
+{{ $leftdays}} days {{$lefthours}} hours  {{$leftminutes}} minutes {{$now->lt($due) == 1?  "before" :  "ago"}} 
 </div>
 </div>
 </div>
 <br/>
+<hr style=" background-color: #f0f0f0;
+  width: 100%;
+  float: center;">
+<br/>
 
+
+
+
+{!! Form::open(array('action' => array('student\AssignmentSubmissionController@store', "contentId"=>$assignment->content_id, "assignmentId"=>$assignment->id), 'method'=>"POST", 'files'=>true))!!}
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('description','Description',['class'=>'col-sm-3 control-label']) !!}
+<h4> {!! Form::label('description','Description',['class'=>'col-sm-3 control-label']) !!} </h4>
 <div class="col-sm-12">
 {!! Form::textarea('description',null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>
 <br/>
-
-
-
 
 <div class="row">
 <div class="form-group">
@@ -58,59 +105,26 @@
 </div>
 <br/>
 
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('start_date','Start Date', ['class'=>'col-sm-3 control-label']) !!}
- <div class="col-sm-6">
-             {!! Form::input('date','start_date', date('Y-m-d'), ['class'=>'form-control'])!!}
- </div>
-</div>
-</div>
-<br/>
+<button type="submit" class="btn btn-info" name="save-draft">Save Draft</button> 
 
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('due_date','Due Date', ['class'=>'col-sm-3 control-label']) !!}
- <div class="col-sm-6">
-            {!! Form::input('date','due_date', date('Y-m-d'), ['class'=>'form-control'])!!}
- </div>
-</div>
-</div>
-<br/>
+ @if ($now->lt($due) == 1)
+<button type="submit" class="btn btn-info" name="save">Save</button>
+ @endif
 
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('max_grade','Maximum Grade', ['class'=>'col-sm-3 control-label']) !!}
- <div class="col-sm-6">
-            {{ Form::selectRange('max_grade', 1, 100) }}
- </div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group">
-<div class="col-lg-5 col-sm-offset-2">
-{{Form::submit('Add New Assignment', ['class'=>'btn btn-primary'])}}
-</div>
-</div>
-</div>
-
-
-</div>
 {!! Form::close() !!}
-@if($errors->any())
-    <ul class="alert alert-danger">
-    @foreach($errors->all() as $error)
-    <li> {{ $error}} </li>
-    @endforeach
-    </ul>
-@endif
+
+<br/>
+<br/>
 
 </div>
 </div>
+</div>
+
+
+
+
+
 @endsection
-
 @push('scripts')
 {!! Html::script('/js/select2.min.js') !!}
 

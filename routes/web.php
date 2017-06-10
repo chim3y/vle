@@ -1,6 +1,6 @@
 <?php
 
-use App\Notifications\LecturePublished;
+use App\Notifications\AssignmentSubmitted;
 
 
 Route::get('/', function () {
@@ -8,9 +8,9 @@ Route::get('/', function () {
     $q->where('role_name', 'Student');
 })->first();
 
-	$lecture=App\Lecture::first();
+	$assignmentsubmission=App\AssignmentSubmission::first();
 
-   $user->notify(new LecturePublished($lecture));
+   $user->notify(new AssignmentSubmitted($assignmentsubmission));
 });
 
 Route::get('/contact', function () {
@@ -77,7 +77,7 @@ Route::delete('/contents/{id}', ['as' => 'tutor.contents.delete', 'uses' => 'tut
 
 Route::get('/admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
-
+Route::get('/admin/courses/getcoursesData', array('as' => 'admin.coursesData', 'uses' => 'Admin\CoursesController@coursesData'));
 
 //-- Admin --//
 Route::group(['prefix' => 'admin',  'middleware' => 'auth:admin'], function(){
@@ -100,6 +100,7 @@ Route::get('/tutors/{id}/{name}', ['as' => 'admin.tutors.show', 'uses' => 'Admin
 Route::post('/tutors/{id}/{name}', ['as' => 'admin.tutors.show', 'uses' => 'Admin\TutorsController@show']);
 Route::get('/tutors{id}/{name}', ['as' => 'admin.tutors.edit', 'uses' => 'Admin\TutorsController@edit']);
 Route::delete('/tutors/{id}', ['as' => 'admin.tutors.delete', 'uses' => 'Admin\TutorsController@destroy']);
+
 //students
 Route::get('/students', array('as' => 'admin.students', 'uses' => 'Admin\StudentsController@index'));
 Route::get('/students/pendingstudentsData', array('as' => 'admin.pendingstudentsData', 'uses' => 'Admin\StudentsController@pendingstudentsData'));
@@ -110,18 +111,22 @@ Route::get('/students/{id}/{name}', ['as' => 'admin.students.show', 'uses' => 'A
 Route::post('/students/{id}/{name}', ['as' => 'admin.students.show', 'uses' => 'Admin\StudentsController@show']);
 Route::get('/students/{id}/{name}', ['as' => 'admin.students.edit', 'uses' => 'Admin\StudentsController@edit']);
 Route::patch('/students/{id}', ['as' => 'admin.students.update', 'uses' => 'Admin\StudentsController@update']);
+
 //role assignment
 Route::get('/roles/assign', array('as' => 'admin.role.assign', 'uses' => 'Admin\RoleController@assignRole'));
 
 //--Courses --//
 Route::get('/courses', array('as' => 'admin.courses', 'uses' => 'Admin\CoursesController@index'));
-Route::get('/courses/getcoursesData', array('as' => 'admin.coursesData', 'uses' => 'Admin\CoursesController@coursesData'));
+
 Route::get('/courses/create', 'Admin\CoursesController@create')->name('admin.courses.create');
 Route::post('/courses', 'Admin\CoursesController@store')->name('admin.courses.store');
 Route::get('/courses/{id}/edit', 'Admin\CoursesController@edit')->name('admin.courses.edit');
 Route::patch('/courses/{id}/edit', array('as' => 'admin.courses.update', 'uses' => 'Admin\CoursesController@update'));
 Route::get('/courses/{id}', 'Admin\CoursesController@show');
 Route::delete('/courses/{id}', ['as' => 'admin.courses.delete', 'uses' => 'Admin\CoursesController@destroy']);
+//--Semesters --//
+Route::resource('/semesters', 'admin\SemesterController');
+
 //--Programmes--//
 Route::get('/programmes', array('as' => 'admin.programmes', 'uses' => 'Admin\ProgrammesController@index'));
 Route::get('/programmes/getprogrammesData', array('as' => 'programmesData', 'uses' => 'Admin\ProgrammesController@programmesData'));
@@ -133,10 +138,18 @@ Route::patch('/programmes/{id}', 'Admin\ProgrammesController@update')->name('adm
 
 Route::get('/programmes/{id}/{programme_code}', ['as' => 'admin.programmes.show', 'uses' => 'Admin\ProgrammesController@show']);
 
+Route::delete('/programmes/{id}', ['as' => 'admin.programmes.delete', 'uses' => 'Admin\ProgrammesController@destroy']);
 //--departments--//
 Route::get('/departments', array('as' => 'admin.departments', 'uses' => 'Admin\DepartmentsController@index'));
 Route::get('/departments/getdepartmentsData', array('as' => 'admin.departmentsData', 'uses' => 'Admin\DepartmentsController@departmentsData'));
-Route::resource('/departments', 'Admin\DepartmentsController');
+Route::get('/departments/create', 'Admin\DepartmentsController@create')->name('admin.departments.create');
+Route::post('/departments', 'Admin\DepartmentsController@store')->name('admin.departments.store');
+Route::get('/departments/{id}/edit', 'Admin\DepartmentsController@edit')->name('admin.departments.edit');
+Route::patch('/departments/{id}/edit', array('as' => 'admin.departments.update', 'uses' => 'Admin\DepartmentsController@update'));
+Route::get('/departments/{id}', 'Admin\DepartmentsController@show');
+Route::delete('/departments/{id}', ['as' => 'admin.departments.delete', 'uses' => 'Admin\DepartmentsController@destroy']);
+
+
 
 //--Contents --//
 
@@ -165,9 +178,10 @@ Route::get('/lectures/{id}/{lecture_name}', ['as' => 'admin.lectures.show', 'use
 
 //--assignments--//
 Route::get('/contents/{contentId}/assignments/create', ['as' => 'admin.contents.assignments.create', 'uses' => 'Admin\AssignmentController@create']);
+Route::patch('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.update', 'uses' => 'Admin\AssignmentController@update']);
 Route::post('/contents/{contentId}/assignments', ['as' => 'admin.contents.assignments.store', 'uses' => 'Admin\AssignmentController@store']);
 Route::get('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.edit', 'uses' => 'Admin\AssignmentController@edit']);
-Route::patch('/contents/{contentId}/assignments/{id}/edit', ['as' => 'admin.contents.assignments.update', 'uses' => 'Admin\AssignmentController@update']);
+
 Route::delete('/assignments/{id}', ['as' => 'admin.assignments.delete', 'uses' => 'Admin\AssignmentController@destroy']);
 Route::get('/assignments/{id}/{assignment_title}', ['as' => 'admin.assignments.show', 'uses' => 'Admin\AssignmentController@show']);
 
@@ -198,19 +212,23 @@ Route::get('/courses/{id}', array('as' => 'student.courses.show', 'uses' =>  'st
 Route::post('/courses/enroll', array('as' => 'student.courses.enroll', 'uses' => 'student\CoursesController@enroll'));
 
 //Route::get('programmes/{id}/{course_name}', ['as' => 'admin.courses.show', 'uses' => 'Admin\CoursesController@show']);
-//--Semesters --//
-Route::resource('semesters', 'admin\SemesterController');
+
 
 
 //--Lectures--//
-Route::get('contents/{id}/lectures/create', 'LectureController@create');
-Route::post('lectures', 'LectureController@store');
-Route::get('lectures/{id}/edit', 'LectureController@edit');
-Route::post('contents/{id}/edit', 'LectureController@update');
-Route::get('contents/{id}', 'LectureController@destroy');
+Route::get('/contents/{contentId}/lectures/{id}/{lecture_name}', ['as' => 'student.contents.lectures.show', 'uses' => 'student\LectureController@show']);
 
-//--Quizes --//
-Route::resource('contents.quizes', 'QuizesController');
+//--Assignment--//
+Route::get('/contents/{contentId}/assignments/{AssignmentId}', ['as' => 'student.contents.assignments.submission.show', 'uses' => 'student\AssignmentSubmissionController@show']);
+
+Route::get('/contents/{contentId}/assignments/{AssignmentId}/assignmentsubmission/create', ['as' => 'student.contents.assignments.submission.create', 'uses' => 'student\AssignmentSubmissionController@create']);
+
+Route::post('/contents/{contentId}/assignments/{AssignmentId}/assignmentsubmission', ['as' => 'student.contents.assignments.submission.store', 'uses' => 'student\AssignmentSubmissionController@store']);
+
+Route::get('/contents/{contentId}/assignments/{AssignmentId}/assignmentsubmission/{id}/edit', ['as' => 'student.contents.assignments.submission.edit', 'uses' => 'student\AssignmentSubmissionController@edit']);
+
+
+Route::patch('/contents/{contentId}/assignments/{AssignmentId}/assignmentsubmission/{id}', ['as' => 'student.contents.assignments.submission.update', 'uses' => 'student\AssignmentSubmissionController@update']);
 
 });
 

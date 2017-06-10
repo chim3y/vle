@@ -77,7 +77,7 @@ class LectureController extends Controller
 
          $document_name = $lectures->document;
               
-         if($document_name){
+         if(! empty($document_name)){
                   $file =  base_path().'/public/uploads/'.$document_name;
                 if (file_exists($file)){
 

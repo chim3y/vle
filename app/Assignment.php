@@ -22,9 +22,16 @@ public function setDueDateAttribute($date){
  public function course(){
       return $this->belongsTo(Course::class);
     
-   } 
+} 
   public function content(){
       return $this->belongsTo(Content::class);
     
    }
+
+
+  public function assignmentsubmission(){
+      return $this->hasMany(AssignmentSubmission::class);
+    
+   } 
+
 }

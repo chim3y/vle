@@ -1,6 +1,8 @@
-@extends('layouts.index')
+@extends('layouts.index_admin')
 @section('title', 'Home | Semesters')
-@section('main_title', 'Semesters')
+@section('main_title')
+<i class=" fa fa-calendar-o" aria-hidden="true"></i>  Semesters
+@endsection
 @section('sub_title', '')
 @section ('current_page', 'Semesters')
 
@@ -9,27 +11,24 @@
 <div class="col-md-4 col-sm-offset-1">
 <br/>
 <br/>
-<div class="row">
-<div class="col-sm-4 col-sm-offset-1">
-<a type="button" class="btn btn-primary" href="/courses/create"> Add Course</a>
-</div>
-</div>
+
 <br/>
 <br/>
 
- <table class="table table-bordered table-condensed">
-	<thead>
+ <table class="table table-bordered table-primary table-striped table-hover">
+	    <thead style="background-color:   #428bca;
+    color: white;">
 	<tr>
-	<th> Id </th>
-	<th> Semester Name </th>
+	<th style="text-align:center;"> Id </th>
+	<th style="text-align:center;"> Semester Name </th>
 	</tr>
 	</thead>
 	<tbody>
 	  
 		@foreach($semesters as $sem)
 		<tr>
-		<th> {{$sem->id}} </th>
-        <td> {{$sem->semester_name}} </td>
+		<th style="text-align:center;"> {{$sem->id}} </th>
+        <td style="text-align:center;"> {{$sem->semester_name}} </td>
         </tr>
 		@endforeach
 		

@@ -49,6 +49,7 @@ return Datatables::of($course)
                         return $semesters->semester_name;
                     })->implode('<br>');
            }) 
+
 ->editColumn('course_name', function ($course) {
  return  $course->course_name;
            }) 
@@ -61,15 +62,14 @@ return Datatables::of($course)
    
 
      public function show($id){
-      $course = Course::find($id);
+
+      $course = Course::with("semesters","programmes","user","admin","contents.lectures", "contents.assignments")->find($id);
 
 
        $uid= Auth::guard('web')->user()->id;
        $student_id=Student::where('user_id', $uid)->value('id');
        $student=Student::find($student_id);
-     
-
-      $course_id= $course->id;
+       $course_id= $course->id;
 
       session()->put('course_id',$course_id);
 
@@ -96,14 +96,13 @@ if (!$course->student->contains($student)){
       $student_id=$request->student_id;
         $student =Student::find($student_id);
        
-        $enrollment_key= Hash::make($request->enrollment_key); 
-  dd($enrollment_key);
+        $enrollment_key= $request->enrollment_key; 
+ 
 
 
-     $check=  Hash::check('INPUT PASSWORD', $enrollment_key);
+     $check=  Hash::check($enrollment_key, $course->enrollment_key);
 
-
-  
+ 
     if($check=='true'){
 
     $student->course()->attach($id);
@@ -112,7 +111,8 @@ if (!$course->student->contains($student)){
         }
     elseif($check=='false')
        
-      return redirect()->action('student\CoursesController@show', ['id'=>$id]);
+        Session::flash('success', 'Please enter correct enrollment key');
+      return view('student.courses.enroll', compact('course',$course ))->withStudentId($student_id);
     }
 
 }

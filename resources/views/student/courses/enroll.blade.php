@@ -1,6 +1,8 @@
-@extends('layouts.index_tutor')
+@extends('layouts.index')
 @section('title', 'Courses | Enroll ')
-@section('main_title', 'Courses')
+@section('main_title')
+<i class=" fa fa-book" aria-hidden="true"></i>  Courses
+@endsection
 @section('sub_title', 'Enroll')
 @section('current_page', 'Enroll')
 @section('name')
@@ -10,7 +12,7 @@
 @section('role', 'Student')
 
 @section('link_dashboard')
-<a href='/tutor/dasboard'> Dashboard </a>
+<a href='/student/dasboard'> Dashboard </a>
 @endsection
  
 @section('content')

@@ -38,7 +38,8 @@ public function __construct() {
             ->get();
             return Datatables::of($programme)
           ->addColumn('action', function ($programme) {
-                return '<a href="/admin/programmes/'.$programme->id.'/edit"> <span class="glyphicon glyphicon-edit" style="color:black"> </span> </a>';
+               return view('admin.programme.partials.editanddelete', compact('programme'))->render();
+                
              
             })    
            ->make(true);  
@@ -86,6 +87,16 @@ public function __construct() {
           $programme->department_id= $request->input('department_id');  
         $programme->save();
         return redirect()->route('admin.programmes');
+    }
+
+  public function destroy($id)
+    {
+        $programme= Programme::findOrFail($id);
+        $programme->delete();
+
+       
+         return redirect('/admin/programmes');
+   
     }
 
 

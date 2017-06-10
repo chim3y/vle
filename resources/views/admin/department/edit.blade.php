@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.index_admin')
 @section('title', 'Department | Create')
 @section('main_title', 'Department')
 @section('sub_title', 'Edit')
@@ -61,6 +61,10 @@
     
 </div>
 </div>
+
+
+</div>
+<br/>
 {!! Form::close() !!}
 @if($errors->any())
     <ul class="alert alert-danger">
@@ -70,10 +74,9 @@
     </ul>
 
 @endif
-</div>
-</div>
-</div>
 
+</div>
+</div>
 
 
 

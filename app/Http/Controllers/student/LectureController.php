@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\student;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LectureRequest;
 use Session;
 use App\Lecture;
+use File;
 
 
 class LectureController extends Controller
@@ -16,80 +17,44 @@ class LectureController extends Controller
      * @return \Illuminate\Http\Response
      */
   
-    
-    public function create($id)
-    {    
-        $content_id=$id;
-        return view('lectures.create', compact('content_id'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(LectureRequest $request)
+    public function show($contentId, $id, $lecture_name)
     {
-        $lecture= new Lecture();
-        $lecture->lecture_name = $request->lecture_name;
-        $lecture->description = $request->description;
-        $lecture->document = $request->document;
+        $lectures = Lecture::find($id);
+       
+         $document_name = $lectures->document;
+              
+         if(! empty($document_name)){
+                  $file =  base_path().'/public/uploads/'.$document_name;
+                if (file_exists($file)){
 
-        foreach (session('course_id') as $course_id) {
-           $lecture->course_id= $course_id;
+                   $ext =File::extension($file);
+                  
+                    if($ext=='pdf'){
+                        $content_types='application/pdf';
+                       }elseif ($ext=='doc') {
+                         $content_types='application/msword';  
+                       }elseif ($ext=='docx') {
 
-        }
-        
-       $lecture->content_id=$request->content_id;
-       $lecture->save();
+                           return view('admin.lectures.show', compact('lectures'));  
+                       }elseif ($ext=='xls') {
+                         $content_types='application/vnd.ms-excel';  
+                       }elseif ($ext=='xlsx') {
+                         $content_types='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';  
+                       }elseif ($ext=='txt') {
+                         $content_types='application/octet-stream';  
+                       }
+                       
+                   
+                    return response(file_get_contents($file),200)
+                           ->header('Content-Type',$content_types);
+                                                            
+                }
+                else{
+                 exit('Requested file does not exist on our server!');
+                }
 
-
-        return redirect('/admin/courses/'.$lecture->course_id);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+           }else{
+             exit('Invalid Request');
+           } 
     }
 }

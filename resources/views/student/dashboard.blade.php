@@ -1,4 +1,4 @@
-@extends('layouts.index_tutor')
+@extends('layouts.index')
 
 @section('title', 'Home | Dashboard')
 @section('main_title', 'DASHBOARD')

@@ -74,6 +74,7 @@
 </div>
 </div>
 </div>
+<br/>
 {!! Form::close() !!}
 @if($errors->any())
     <ul class="alert alert-danger">

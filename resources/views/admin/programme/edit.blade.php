@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.index_admin')
 @section('title', 'Programme | Create')
 @section('main_title', 'Programme')
 @section('sub_title', 'Edit')

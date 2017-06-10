@@ -4,7 +4,6 @@
  "> <span class="glyphicon glyphicon-edit"></span> Edit
 </a>
 
-
 {{ Form::open(['method' => 'DELETE', 'route' => ['admin.courses.delete', $course->id] , 'style'=>'display: inline-block']) }}
  {!! csrf_field() !!}
 <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"> </span>Delete</button>

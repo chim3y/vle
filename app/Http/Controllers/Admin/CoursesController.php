@@ -39,21 +39,18 @@ return Datatables::of($course)
             ->addColumn('action', function ($course) {
                 return view('admin.courses.partials.editanddelete', compact('course'))->render();
 }) 
-            ->addColumn('programme_name', function (Course $course) {
+->addColumn('programme_name', function (Course $course) {
                     return $course->programmes->map(function($programmes) {
                         return $programmes->programme_name;
                     })->implode(',<br>');
-           }) 
-             ->addColumn('semester_name', function (Course $course) {
+           })
+ ->addColumn('semester_name', function (Course $course) {
                     return $course->semesters->map(function($semesters) {
                         return $semesters->semester_name;
                     })->implode(',<br>');
            }) 
-->editColumn('course_name', function ($course) {
- return '<a  target="_blank" style="color:black" href="/admin/courses/'
-                  .$course->id.'"> '.$course->course_name.'</a>';
-           }) 
-->editColumn('name', function ($course) {
+ ->editColumn('name', function ($course) {
+
 if (is_null($course->user_id)) {
   $admin=Admin::where('id', '=', $course->admin_id)->first();
   $admin_name=$admin->name;
@@ -65,6 +62,11 @@ else{
   return 'Tutor: '. ucfirst(trans($tutor_name));
 }
     }) 
+->editColumn('course_name', function ($course) {
+ return '<a  target="_blank" style="color:black" href="/admin/courses/'
+                  .$course->id.'"> '.$course->course_name.'</a>';
+           }) 
+
 ->make(true); 
       
    }

@@ -32,5 +32,10 @@ class Admin extends Authenticatable
     
    } 
 
+  public function assignmentsubmission(){
+      return $this->hasMany(AssignmentSubmission::class);
+    
+   } 
+
  
 }

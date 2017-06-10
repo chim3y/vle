@@ -1,6 +1,8 @@
 @extends('layouts.index')
 @section('title', 'Users | Create')
-@section('main_title', 'Users')
+@section('main_title')
+<i class=" fa fa-user" aria-hidden="true"></i>  Courses
+@endsection
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
 @section ('content')

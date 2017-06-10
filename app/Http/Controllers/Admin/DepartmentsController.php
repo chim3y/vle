@@ -30,7 +30,8 @@ class DepartmentsController extends Controller
        
             return Datatables::of($department)
             ->addColumn('action', function ($department) {
-                return '<a href="/admin/departments/'.$department->id.'/edit"> <span class="glyphicon glyphicon-edit" style="color:black"> </span> </a>';
+                
+                  return view('admin.department.partials.editanddelete', compact('department'))->render();
              
             }) 
            ->make(true);  
@@ -75,6 +76,16 @@ class DepartmentsController extends Controller
          $department->save();
 
         return redirect('/admin/departments');
+    }
+
+      public function destroy($id)
+    {
+        $department= Department::findOrFail($id);
+        $department->delete();
+
+       
+         return redirect('/admin/departments');
+   
     }
 
 }

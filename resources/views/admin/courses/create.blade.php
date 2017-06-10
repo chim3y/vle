@@ -1,6 +1,8 @@
 @extends('layouts.index_admin')
 @section('title', 'Courses | Create')
-@section('main_title', 'Courses')
+@section('main_title')
+<i class=" fa fa-book" aria-hidden="true"></i>  Courses
+@endsection
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
 @section('stylesheets')

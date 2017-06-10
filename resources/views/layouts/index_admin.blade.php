@@ -136,28 +136,41 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li class="active treeview">
+        <li>
        <a href="{{ URL::route('admin.users') }}"> 
-            <i class="fa-users"></i> <span>Users</span>
+            <i class="fa fa-users"></i> <span>Users</span>
           </a>
         </li>
-        <li class="active treeview">
+        <li>
        <a href="{{ URL::route('admin.tutors') }}"> 
-            <i class="fa-user-circle"></i> <span>Tutors</span>
+            <i class="fa fa-user "></i> <span>Tutors</span>
           </a>
         </li>
-        <li class="active treeview">
+        <li >
        <a href="{{ URL::route('admin.students') }}"> 
-            <i class="fa-user-circle"></i> <span>Students</span>
+            <i class="fa fa-user"></i> <span>Students</span>
           </a>
         </li>
         
-        <li class="active treeview">
+        <li>
        <a href="{{ URL::route('admin.courses') }}"> 
-            <i class="fa-book"></i> <span>Courses</span>
+            <i class="fa fa-book"></i> <span>Courses</span>
+          </a>
+        </li>
+      
+       <li>
+       <a href="{{ URL::route('admin.departments') }}"> 
+            <i class="fa fa-building-o"></i> <span>Departments</span>
           </a>
         </li>
 
+         <li>
+       <a href="{{ URL::route('admin.programmes') }}"> 
+            <i class="fa fa-graduation-cap"></i> <span>Programmes</span>
+          </a>
+        </li>
+
+        
         <li>
           <a href="pages/calendar.html">
             <i class="fa fa-calendar"></i> <span>Calendar</span>

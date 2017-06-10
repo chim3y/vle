@@ -116,7 +116,6 @@ return Datatables::of($tutor)
     $tutor = Tutor::findOrFail($id);
      $data = Input::all();
 
-    
 
      if(isset($data['approve'])){
          $tutor->isApproved= $request->Input::get('isApproved');

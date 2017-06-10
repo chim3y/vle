@@ -1,36 +1,41 @@
 @extends('layouts.index_admin')
 @section('title', 'Courses | All ')
-@section('main_title', 'Courses')
+@section('main_title')
+<i class=" fa fa-book" aria-hidden="true"></i>  Courses
+@endsection
 @section('sub_title', 'All')
 @section('current_page', 'All')
 
 @section('content')
 <div class="row" >
-<div class="col-sm-10 col-sm-offset-1" style="background-color: white">
+<div class="col-sm-12" style="background-color: white">
 
 <br/>
 <br/>
 <div class="row">
-<div class="col-sm-10 col-sm-offset-1">
-<a type="button" class="btn btn-primary" href="{{ URL::route('admin.courses.create') }}"> Add Course</a>
+<div class="col-sm-10 col-sm-offset-10 ">
+<a type="button" class="btn btn-primary" href="{{ URL::route('admin.courses.create') }}"> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add Course</a>
 </div>
 </div>
 <br/>
 <br/>
-    <table class="table table-bordered table-condensed" id="courses_table">
-        <thead>
+    <div class="table-responsive">
+    <table class="table table-bordered table-primary table-striped table-hover" id="courses_table">
+        <thead style="background-color: #428bca;
+    color: white;">
             <tr> 
-                <th>Name</th>
+                <th >Name</th>
                 <th>Code</th>
                 <th>Credits</th>
                 <th>Programmes </th>
-                <th> Semesters </th>
-                <th> Created By </th>
-                <th> Created At </th>
-                <th>Operations </th>
+                <th>Semesters </th>
+                <th>Created by </th>
+                <th>Created at </th>
+                <th class="col-md-2">Operations </th>
             </tr>
         </thead>
 </table>
+</div>
 </div>
 </div>
 </div>

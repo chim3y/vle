@@ -1,12 +1,21 @@
 
-@extends('layouts.index_admin')
+@extends('layouts.index_tutor')
 @section('title', 'Assignment | View')
 @section('main_title')
-<i class=" fa fa-task" aria-hidden="true"></i>  Assignment
+<i class="fa fa-tasks" aria-hidden="true"></i>
+Assignment
 @endsection
 @section('sub_title', 'View')
 @section ('current_page', 'View')
-@section ('stylesheets')
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
+
+  <script>tinymce.init({ selector:'textarea' });</script>
+@endsection
+
+@section ('content')
+<br/>
 
 <div class="row">
 <div class="col-sm-10 col-sm-offset-1">
@@ -40,7 +49,7 @@
 <div class="row">
 <div class="form-group"> 
 
-<h4> {!! Form::label('sstart_date','Start Date',['class'=>'col-sm-3 control-label']) !!} </h4>
+<h4> {!! Form::label('start_date','Start Date',['class'=>'col-sm-3 control-label']) !!} </h4>
 
 <div class="col-sm-9">
 {{ $assignment->start_date }} 
@@ -71,6 +80,9 @@
   width: 100%;
   float: center;">
 <br/>
+
+
+{!! Form::model($submission,['files'=>'true','method'=>'PATCH', 'action'=>['student\AssignmentSubmissionController@update', "contentId"=>$assignment->content_id, "assignmentId"=>$assignment->id, "id"=>$submission->id ]]) !!}
 <div class="row">
 <div class="form-group"> 
 <h4> {!! Form::label('description','Description',['class'=>'col-sm-3 control-label']) !!} </h4>
@@ -90,28 +102,27 @@
 </div>
 </div>
 <br/>
-
+<br/>
+@if($submission->status==0)
 @if ($now->lt($due) == 1)
 
-<button class="btn btn-primary center-block" type="submit" form action="{{ action('student\AssignmentSubmissionController@store', array('contentID'=>$assignment->content_id, 'assignmentID'=>$assignment->id)) }}" >Submit</button>
 
-</div>
-
+<button type="submit" class="btn btn-info" name="save">Save</button>
+<button  type="submit" class="btn btn-success" name="update" > Update</button> 
 @endif
+@endif
+ <br/> 
+<br/>
+<br/>
 
+{!! Form::close() !!}
 
 
 </div>
 </div>
-
-
 </div>
 </div>
 </div>
-</div>
-
-
-
 @endsection
 @push('scripts')
 {!! Html::script('/js/select2.min.js') !!}
