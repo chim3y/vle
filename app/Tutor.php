@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Tutor extends Model
 {
     protected $table = 'tutors';
-     protected $fillable = [
-        'isApproved'
+        protected $fillable = [
+    'user_id', 'fname', 'mname', 'lname', 'cid','sex', 'dob','programme_id', 'current_semester', 'bloodgroup','street_name', 'isApproved'
     ];
 
 
@@ -19,6 +19,11 @@ public function user(){
 
 public function courses(){
       return $this->hasMany(Course::class);
+    
+   } 
+
+public function course(){
+         return $this->belongsToMany(Course::class,'course_tutor','course_id','tutor_id')->withTimestamps();
     
    } 
 }

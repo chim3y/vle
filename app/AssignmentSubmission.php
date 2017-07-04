@@ -8,7 +8,7 @@ class AssignmentSubmission extends Model
 {
      protected $table = 'assignmentsubmissions';
     protected $fillable = [
-    'description','document','assignment_id', 'user_id', 'admin_id'
+    'description','document','assignment_id', 'user_id', 'admin_id', 'status', 'grade', 'graded_at', 'feedback'
     ];
 
 

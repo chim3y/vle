@@ -8,7 +8,7 @@
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::model($user,['files'=>'true','method'=>'PATCH', 'action'=>['UsersController@update', $user->id]]) !!}
+{!! Form::model($user,['files'=>'true','method'=>'PATCH', 'action'=>['UsersController@update', $user->id, $user->name]]) !!}
  <div class="well" style="background-color: white">
 
  <div class="page-header"> Basic Information </div>

@@ -38,7 +38,7 @@ class LectureController extends Controller
         $filename = '';
         $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
         $file = $request->file('document');
-        $destinationPath =public_path('uploads',$filename);
+        $destinationPath =public_path('uploads/lectures/',$filename);
         if (!File::exists($destinationPath)) {
             File::makeDirectory($destinationPath, 0777, true);
         }
@@ -63,7 +63,11 @@ class LectureController extends Controller
         return redirect('/admin/courses/'.$lecture->course_id);
        } 
     
-    
+     public function download($file_name) {
+    $file_path = public_path('uploads/lectures/'.$file_name);
+    return response()->download($file_path);
+  }
+
 
     /**
      * Display the specified resource.
@@ -78,40 +82,50 @@ class LectureController extends Controller
          $document_name = $lectures->document;
               
          if(! empty($document_name)){
-                  $file =  base_path().'/public/uploads/'.$document_name;
-                if (file_exists($file)){
+                  $file =  base_path().'/public/uploads/lectures/'.$document_name;
+                if (file_exists($file)){            
+            
+$ext =File::extension($file);
+              
+                if($ext=='pdf'){
+                    $content_types='application/pdf';
+                   }elseif ($ext=='doc') {
+                     $content_types='application/msword';  
+                   }elseif ($ext=='docx') {
+                     $content_types='application/vnd.openxmlformats-officedocument.wordprocessingml.document';  
+                   }elseif ($ext=='xls') {
+                     $content_types='application/vnd.ms-excel';  
+                   }elseif ($ext=='xlsx') {
+                     $content_types='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';  
+                   }elseif ($ext=='txt') {
+                     $content_types='application/octet-stream';  
+                   }
+                   elseif ($ext=='ptt') {
+                   $content_types='application/vnd.ms-powerpoint';
+                   }
+                  elseif ($ext=='pptx') {
+                   $content_types='application/vnd.openxmlformats-officedocument.presentationml.presentation';
+                   }
 
-                   $ext =File::extension($file);
-                  
-                    if($ext=='pdf'){
-                        $content_types='application/pdf';
-                       }elseif ($ext=='doc') {
-                         $content_types='application/msword';  
-                       }elseif ($ext=='docx') {
+                  elseif ($ext=='pptx') {
+                   $content_types='application/vnd.openxmlformats-officedocument.presentationml.template';
+                   }
+                  elseif ($ext=='mdb') {
+                   $content_types='application/vnd.ms-access';
+                   }
 
-                           return view('admin.lectures.show', compact('lectures'));  
-                       }elseif ($ext=='xls') {
-                         $content_types='application/vnd.ms-excel';  
-                       }elseif ($ext=='xlsx') {
-                         $content_types='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';  
-                       }elseif ($ext=='txt') {
-                         $content_types='application/octet-stream';  
-                       }
-                       
-                   
-                    return response(file_get_contents($file),200)
-                           ->header('Content-Type',$content_types);
-                                                            
-                }
-                else{
-                 exit('Requested file does not exist on our server!');
-                }
 
-           }else{
-             exit('Invalid Request');
-           } 
-    }
+return response(file_get_contents($file),200) ->header('Content-Type',$content_types);
 
+            }
+            else{
+             exit('Requested file does not exist on our server!');
+            }
+
+       }else{
+         exit('No attachment');
+       } 
+}
     
 
     /**
@@ -140,15 +154,38 @@ class LectureController extends Controller
         $lecture->lecture_name = $request->lecture_name;
         $lecture->description = $request->description;
         $lecture->content_id=$contentId;
+        if($request->hasfile('document')){
+             $destinationPath = '';
+        $filename = '';
+        $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
+        $file = $request->file('document');
+        $destinationPath =public_path('uploads/lectures/',$filename);
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true);
+        }
+        $filename = time(). '.' .$file->getClientOriginalName();
+        $file->move($destinationPath, $filename);
+
+
+         $oldfilename=$lecture->document;   
+          if (!empty($oldfilename)){
+             File::delete('uploads/lectures/'.$oldfilename);
+        }
+        $lecture->document = $filename;
+        }
+        else{
+        $lecture->document = $lecture->document;    
+        }
+
         $lecture->save();
 
-         foreach (session('course_id') as $course_id) {
-           $lecture->course_id= $course_id;
+        
+           $lecture->course_id= session('course_id');
+
         return redirect('/admin/courses/'.$lecture->course_id);
         }
         
 
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -162,10 +199,10 @@ class LectureController extends Controller
         if(!is_null($lecture)) {
         $lecture->delete();
         }
-        foreach (session('course_id') as $course_id) {
-           $lecture->course_id= $course_id;
+     
+           $lecture->course_id= session('course_id');
 
-        }
+    
          return redirect('/admin/courses/'.$lecture->course_id);
    
     }

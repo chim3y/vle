@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Yajra\Datatables\Datatables;
 use App\User;
+use App\Tutor;
+use App\Student;
 use App\Http\Requests\UserRequest;
 use Hash;
 use Image;
@@ -13,14 +15,7 @@ class UsersController extends Controller
 {  
    
 
-    const Student='student';
-    const Tutor='tutor';
 
-    public static $user_type = [
-        self::Student=>'student',
-        self::Tutor=>'tutor',
-    ];
-    
      public function __construct()
     {
         $this->middleware('auth');
@@ -31,16 +26,7 @@ class UsersController extends Controller
         return view('users.dashboard');
     }
 
-    public function isStudent ()
-    {
-        return $this->user_type == self::Student;
-    }
-
-    public function isTutor()
-    {
-        return $this->user_type == self::Tutor;
-    }
-
+  
     public function index()
     {
         return view('users.index');
@@ -84,13 +70,13 @@ class UsersController extends Controller
 
 
   
-     public function edit($id){
+     public function edit($id,$name){
        $user= User::findorfail($id);
       
        return view('users.edit', compact('user'));
     }
 
-    public function update($id, UserRequest $request){
+    public function update($id,$name , UserRequest $request){
         $user = User::findorfail($id);
          if($request->hasfile('image')){
         $image=$request->file('image');
@@ -103,7 +89,7 @@ class UsersController extends Controller
         return redirect('users');
     }
     
-    public function destroy($id)
+    public function destroy($id, $name)
    {
     $user = User::findOrFail($id);
 
@@ -114,13 +100,29 @@ class UsersController extends Controller
     return redirect('users');
 }
 
-public function show($id)
-    {
+
+public function show($id, $name)
+{
 
         $user = User::findOrFail($id);
-        return view('users.show', compact('user'));
-    }
+        $tutor = Tutor::where('user_id',$id)->first();
+        $student= Student::where('user_id',$id)->first();
+        
 
+        if(Auth::guard('web')->check()==true){
+
+           if(Auth::guard('web')->user()->hasRole('Tutor')==true){
+           return view ('users.tutor_view', compact('user'))->withTutor($tutor);
+           }
+       
+           elseif(Auth::guard('web')->user()->hasRole('Student')==true){
+           return view ('users.student_view', compact('user'))->withStudent($student);
+           }
+     }
+        else{
+
+         return view ('users.admin_view',compact('user'));
+        }
 
 }
-
+}

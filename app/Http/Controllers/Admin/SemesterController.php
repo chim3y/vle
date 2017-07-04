@@ -91,6 +91,11 @@ class SemesterController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $semester=Semester::find($id);
+           if(!is_null($semester)) {
+        $semester->delete();
+        }
+
+       return redirect('/admin/semesters');
+}
 }

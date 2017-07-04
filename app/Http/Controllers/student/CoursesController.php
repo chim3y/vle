@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\student;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EnrollRequest;
+use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Course;
 use App\Student;
@@ -53,7 +53,7 @@ return Datatables::of($course)
 ->editColumn('course_name', function ($course) {
  return  $course->course_name;
            }) 
-
+->escapeColumns([])
 ->make(true); 
 
   
@@ -76,7 +76,7 @@ return Datatables::of($course)
 if (!$course->student->contains($student)){
       
       Session::flash('success', 'Please enter correct enrollment key');
-      return view('student.courses.enroll', compact('course',$course ))->withStudentId($student_id);
+      return view('student.courses.enroll', compact('id',$id ))->withStudentId($student_id);
     }
  
   return view('student.courses.show', compact('course',$course ));
@@ -87,7 +87,10 @@ if (!$course->student->contains($student)){
 }
 
 
- public function enroll(EnrollRequest $request){
+
+
+ public function enroll(Request $request, $id){
+      $this->validate($request, ['enrollment_key'=>'required']);
       $id= session('course_id');
       $course=Course::find($id);
        $course_id= $course->id;
@@ -97,12 +100,10 @@ if (!$course->student->contains($student)){
         $student =Student::find($student_id);
        
         $enrollment_key= $request->enrollment_key; 
- 
 
 
      $check=  Hash::check($enrollment_key, $course->enrollment_key);
 
- 
     if($check=='true'){
 
     $student->course()->attach($id);
@@ -110,9 +111,9 @@ if (!$course->student->contains($student)){
     return redirect()->route('student.courses.show', array('id' => $id ));
         }
     elseif($check=='false')
-       
+        
         Session::flash('success', 'Please enter correct enrollment key');
-      return view('student.courses.enroll', compact('course',$course ))->withStudentId($student_id);
+      return redirect()->route('student.courses.show', compact('id',$id ))->withStudentId($student_id);
     }
 
 }

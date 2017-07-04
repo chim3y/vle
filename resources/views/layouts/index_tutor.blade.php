@@ -22,8 +22,14 @@
   <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+
+
+
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet"  href="/bootstrap/css/bootstrap-tour.min.css" rel="stylesheet">
+  <link rel="stylesheet"  href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" >
+
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -56,48 +62,39 @@
       <div class="navbar-custom-menu">
 
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-            <li class="dropdown messages-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-            </ul>
-            </li>
+         
 
            <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">   </span>
+               @if( !empty (Auth::user()->image))
+                <img src="{{ asset('/images/users/'.Auth::user()->image) }}"  style="height:20px; width:20px" class="img-circle" alt="User Image">
+          @else
+          <img src="{{ asset('/images/users/user_default.png') }}"  style="height:20px ; width:20px "class="img-circle" alt="User Image">
+          @endif  <span class="hidden-xs">   </span>
             </a>
 
             <ul class="dropdown-menu">
                 <li class="user-header">
-                <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                   @if( !empty (Auth::user()->image))
+                <img src="{{ asset('/images/users/'.Auth::user()->image) }}"  style="height:70px; width:70px" class="img-circle" alt="User Image">
+          @else
+          <img src="{{ asset('/images/users/user_default.png') }}"   style="height:70px; width:70px" class="img-circle" alt="User Image">
+          @endif
                 <p>
-                @yield('name')
-               
-                  <small>@yield('role')</small>
+                {{Auth::user()->name}}
+                  <small>Tutor</small>
                 </p>
                 </li>
           <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="/users/{{Auth::user()->id}}/{{ str_slug(Auth::user()->name)}}/profile" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
 
-                 <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
-                 
-                                 onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
-                                 Logout
-                                </a>
+                 <a href="{{ route('logout') }}" style="color: #4c4c4c" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
 
-                  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                           {{ csrf_field() }}
-                   </form>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+            
                 </div>
                </li>
             </ul>
@@ -130,18 +127,29 @@
         <li class="header">MAIN NAVIGATION</li>
         <li class="active treeview">
           <a href="{{ URL::route('tutor.dashboard') }}"> 
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-          </a>
-
-        <li>
-          <a href="pages/calendar.html">
-            <i class="fa fa-calendar"></i> <span>Calendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
+            <i class="fa fa-dashboard"></i> <span id="one">Dashboard</span>
           </a>
         </li>
+    
+
+         <li>
+        <a href="{{ URL::route('tutor.courses') }}"> 
+            <i class="fa fa-book"></i> <span>Courses</span>
+          </a>
+        </li>
+
+         <li>
+        <a href=""> 
+            <i class="fa fa-user"></i> <span>Students </span>
+          </a>
+        </li>
+
+         <li>
+        <a href=""> 
+            <i class="fa fa-book"></i> <span>Grades</span>
+          </a>
+        </li>
+      
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -172,7 +180,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
-
+<script src="/bootstrap/js/bootstrap-tour.min.js"></script>
 <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 
@@ -194,9 +202,75 @@
         'csrfToken' => csrf_token(),
     ]); ?>
 </script>
+<script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="/bootstrap/js/bootstrap-tour.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/buttons.print.js"> </script>
+<script src="https://cdn.datatables.net/1.10.15/js/buttons.flash.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"> </script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"> </script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"> </script>
+
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.flash.min.js"> </script>
+
+<script>
+// Instance the tour
+var tour = new Tour({
+  debug: true,
+  storage: true,
+  steps: [
+  {
+    element: "#one",
+    title: "Hello {{Auth::user()->name}}",
+    content: "Welcome to Tutor Dashboard, I will help you get started.",
+    placement: "bottom",
+    duration:4000,
+
+  },
+ {
+    element: "#two",
+    title: "Course",
+    content: "click on Course Module to view course managemnt page ",
+    placement: "left",
+    duration:4000,
+    
+  },
+  {
+    element: "#three",
+    title: "Student",
+    content: "Click on Student to view all the students enrolled to your course",
+    placement: "bottom",
+     duration:4000,
+    },
+      {
+    element: "#four",
+    title: "View grade",
+    content: "Click on Grade module to View students grade",
+    placement: "top",
+    onShow: function() {
+      return $("#aone").addClass("open");
+    },      onHide: function() {
+      $("#one").removeClass("open"); 
+    } 
+  }    
+]});
+
+if (tour.ended()) {
+  tour.restart();
+} else {
+  tour.init();
+  tour.start();
+    window.localStorage.clear();
+}
+
+  window.localStorage.clear();
+ </script>
 
 @stack('scripts')
 
 
 </body>
 </html>
+ 

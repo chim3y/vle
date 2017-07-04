@@ -28,7 +28,8 @@ class CourseRequest extends FormRequest
             'image'=>'sometimes | image',
             'course_name'=>'required',
             'course_code'=>'required | min:6',
-            'credits'=>'required'
+            'credits'=>'required',
+            'programme_id'=>'required'
 
         ];
     }

@@ -1,6 +1,15 @@
 @extends('layouts.index_admin')
-
+@section('title', 'Department | View')
+@section('main_title')
+<i class=" fa fa-building" aria-hidden="true"></i>  Department
+@endsection
+@section('sub_title', 'View')
+@section('current_page')
+Department 
+<li> View </li>
+@endsection
 @section('content')
+<br/>
 <div class="row">
 <div class="col-sm-12">
 <div class="well" style="background-color: white">
@@ -8,7 +17,7 @@
 <br/>
 <div class="row">
 <div class="col-sm-10 col-sm-offset-10 ">
-<a type="button" class="btn btn-primary" href="/admin/departments/create"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Department</a>
+<a type="button" class="btn btn-primary" href="/admin/departments/create"><i class="fa fa-plus-circle" aria-hidden="true" id="one"></i> Add Department</a>
 </div>
 </div>
 <br/>
@@ -52,4 +61,54 @@ $(function() {
 });
 </script>
 
+<Script>
+// Instance the tour
+var tour = new Tour({
+  debug: true,
+  storage: false,
+  steps: [
+  {
+    element: "#one",
+    title: "Create new Department",
+    content: "Click here to create new department ",
+    placement: "left",
+    duration:4000,
+
+  },
+ {
+    element: "#two",
+    title: "Edit Department",
+    content: "Edit the department details by clicking here. ",
+    placement: "left",
+    duration:4000,
+    
+  },
+  {
+    element: "#three",
+    title: "Delete Department",
+    content: "Delete the particular Department if not needed",
+    placement: "bottom",
+    onShow: function() {
+      return $("#aone").addClass("open");
+    },      onHide: function() {
+      $("#one").removeClass("open"); 
+    } 
+  }    
+]});
+
+if (tour.ended()) {
+  tour.restart();
+} else {
+  tour.init();
+  tour.start();
+}
+
+</Script>
+<script>
+    $('#remove').click(function(){
+this.form.submit();
+this.disabled=true;
+this.innerHTML='<i class="fa fa-spinner fa-spin"></i> Removing...';
+});
+</script>
 @endpush

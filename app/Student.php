@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
      protected $table = 'students';
+      protected $fillable = [
+    'user_id', 'fname', 'mname', 'lname', 'cid','sex', 'dob','programme_id', 'current_semester', 'bloodgroup','street_name', 'isApproved'
+    ];
+
+
 
 
 public function user(){

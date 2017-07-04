@@ -26,6 +26,10 @@
  {!! Form::label('image','Edit Image',['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
 {!! Form::file('image') !!}
+<br/>
+@if(isset($course->image))
+<img src="{{ asset('images/courses/'.$course->image) }}" class="img-responsive" height="90" width="90" />
+@endif
 </div>
  </div>
  </div>
@@ -56,7 +60,7 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('programme_id','Programme Name:', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('programme_id','Programme Name*', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
 
   <select class="form-control" name="programme_id">
@@ -88,7 +92,7 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('semester_id','Semester Name:', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('semester_id','Semester Name*', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
   <select class="form-control" name="semester_id">
   <option value="" selected> Please select Semester</option>
@@ -124,7 +128,7 @@
 <div class="form-group"> 
 {!! Form::label('enrollment_key','Enrollment Key', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-<input type="password" class="form-control" name="enrollment_key">
+<input type="password" class="form-control" name="enrollment_key" placeholder="{{$course->enrollment_key}}"> 
 </div>
 </div>
 </div>
@@ -135,7 +139,7 @@
 <div class="form-group"> 
 {!! Form::label('room_no','Class Number', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('class_no', null, ['class'=>'form-control']) !!}
+{!! Form::text('room_no', null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </div>
@@ -144,9 +148,9 @@
 
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('building_no','Building Number', ['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('building_name','Building Number', ['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::text('building_no',null, ['class'=>'form-control']) !!}
+{!! Form::text('building_name',null, ['class'=>'form-control']) !!}
 </div>
 </div>
 </dv>
@@ -156,21 +160,11 @@
 <div class="row">
 <div class="form-group"> 
 <div class="col-lg-8 col-sm-offset-2">
- <div class="dropup">
- <div class="btn-group">
+  <a class="btn btn-success" href="javascript:history.back()" > &nbsp; Return Back </a> &nbsp; OR &nbsp;
  
     {!!Form::submit('Save and Continue',['class'=>'btn btn-primary'])!!}
-    <a type="submit" class="btn btn-primary active dropdown-toggle" data-toggle="dropdown">
-    <span class="glyphicon glyphicon glyphicon-menu-up"></span>
-    </a>
-    <ul class="dropdown-menu " role="menu">
-    
-    <li><a type="submit" name="add_another" value="Save course and add another course" href="/courses/create">Save course and add another course</a></li>
-    <li><a type="submit" name="add_done" value="Save course and go to course index" href="/courses/create">Save course and go to course index </a></li>
-   
-    </ul>
-</div> 
-</div>
+  
+
 </div>
 </div>
 </div>

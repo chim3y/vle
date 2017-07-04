@@ -60,7 +60,9 @@ class ContentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $content= Content::findorfail($id);
+      
+       return view('admin.contents.edit', compact('content'));
     }
 
     /**
@@ -72,7 +74,14 @@ class ContentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $content = Content::findorfail($id);
+        $content->name = $request->name;
+        $content->description = $request->description;
+        $content->course_id= session('course_id');
+        $content->save();
+
+    
+        return redirect('/admin/courses/'.$content->course_id);
     }
    
    
@@ -88,9 +97,9 @@ class ContentController extends Controller
         $content= Content::findOrFail($id);
         $content->delete();
 
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
+        
+           $content->course_id= session('course_id');
+      
          return redirect('/admin/courses/'.$content->course_id);
    
     }

@@ -18,7 +18,7 @@
 @section('content')
 <div class="row">
 <div class="col-sm-10 col-sm-offset-1">
-{!! Form::open(['action' => ['student\CoursesController@enroll'], 'method' => 'post']) !!}
+{!! Form::open(['action' => ['student\CoursesController@enroll', "id"=>$id], 'method' => 'post']) !!}
 
 
 <div class="well" style="background-color: white">
@@ -63,7 +63,7 @@
 
 <div class="row">
 <div class="col-sm-5 col-sm-offset-5">
-<input type="submit" class="btn btn-success"> 
+<input type="submit" class="btn btn-success" value="Enroll to Course">  
 </div>
 </div>
 </div>

@@ -1,15 +1,18 @@
 @extends('layouts.index_tutor')
 @section('title', 'Courses | Create')
-@section('main_title', 'Courses')
+@section('main_title')
+<i class=" fa fa-book" aria-hidden="true"></i>  Courses
+@endsection
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
 @section('stylesheets')
 {!!Html::style('/css/select2.min.css')!!}
 
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
+
   <script>tinymce.init({ selector:'textarea' });</script>
-@endsection
-@section('name')
-{{ ucfirst(trans(Auth::guard('web')->user()->name)) }} 
 @endsection
 
 @section('role', 'Tutor')
@@ -158,21 +161,11 @@
 <div class="row">
 <div class="form-group"> 
 <div class="col-lg-8 col-sm-offset-2">
- <div class="dropup">
- <div class="btn-group">
+ <a class="btn btn-success" href="javascript:history.back()" > &nbsp; Return Back </a> &nbsp; OR &nbsp;
  
     {!!Form::submit('Save and Continue',['class'=>'btn btn-primary'])!!}
-    <a type="submit" class="btn btn-primary active dropdown-toggle" data-toggle="dropdown">
-    <span class="glyphicon glyphicon glyphicon-menu-up"></span>
-    </a>
-    <ul class="dropdown-menu " role="menu">
-    
-    <li><a type="submit" name="add_another" value="Save course and add another course" href="/courses/create">Save course and add another course</a></li>
-    <li><a type="submit" name="add_done" value="Save course and go to course index" href="/courses/create">Save course and go to course index </a></li>
    
-    </ul>
-</div> 
-</div>
+
 </div>
 </div>
 </div>

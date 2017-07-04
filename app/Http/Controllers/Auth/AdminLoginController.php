@@ -8,28 +8,41 @@ use Auth;
 
 class AdminLoginController extends Controller
 {
-	public function __construct() {
-    
-    $this->middleware('guest:admin');
-   
-}
-   public function showLoginForm(){
-   	return view('auth.admin-login');
-   }
-
-    public function login(Request $request){
-   	//validate the form data
-    	$this->validate($request, [
-         'email' => 'required|email',
-         'password' => 'required|min:6'
-    		]);
-    //attempt to log the user in
-
-    if(Auth::guard('admin')->attempt(['email'=>$request->email, 'password'=>$request->password], $request->remember)) {
-  // if successful, then redirect to their intended location
-              return redirect()->intended(route('admin.dashboard'));
+	
+   public function __construct()
+    {
+        $this->middleware('guest:admin');
     }
-    // if unsuccessful, then redirect to their intended location
-   return redirect()->back()->withInput($request->only('email', 'remember'));
-   }
+    public function showLoginForm()
+    {
+        return view('auth.admin-login');
+    }
+    public function login( Request $request )
+    {
+        // Validate form data
+        $this->validate($request, [
+            'email'     => 'required|email',
+            'password'  => 'required|min:6'
+        ]);
+        // Attempt to authenticate user
+        // If successful, redirect to their intended location
+        if ( Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember) ) {
+            return redirect()->intended( route('admin.dashboard') );
+        }
+        // Authentication failed, redirect back to the login form
+        return redirect()->back()->withInput( $request->only('email', 'remember') );
+    }
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+        return redirect()->guest(route( 'admin.login' ));
+    }
 }

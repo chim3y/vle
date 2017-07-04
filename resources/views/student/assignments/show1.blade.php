@@ -1,5 +1,5 @@
 
-@extends('layouts.index_tutor')
+@extends('layouts.index')
 @section('title', 'Assignment | View')
 @section('main_title')
 <i class="fa fa-tasks" aria-hidden="true"></i>
@@ -69,17 +69,31 @@ Assignment
 
 <div class="row"> 
 <div class="form-group"> 
-<h4> {!! Form::label('due_date','Due Date',['class'=>'col-sm-3 control-label']) !!} </h4>
+<h4> {!! Form::label('due_date','Left Days',['class'=>'col-sm-3 control-label']) !!} </h4>
 <div class="col-sm-9">
 {{ $leftdays}} days {{$lefthours}} hours  {{$leftminutes}} minutes {{$now->lt($due) == 1?  "before" :  "ago"}} 
 </div>
 </div>
 </div>
 <br/>
+
+ @if(isset($assignment->document))                   
+ 
+
+<a class="btn btn-xm btn-info col-sm-2" href="/download/{{$assignment->document}}" target="_blank"> Download Assignment</a>
+                                  
+   @else
+                                                              
+    No attachments found!
+                                                                                                             
+    @endif
+<br/>
 <hr style=" background-color: #f0f0f0;
   width: 100%;
   float: center;">
 <br/>
+
+
 
 
 {!! Form::model($submission,['files'=>'true','method'=>'PATCH', 'action'=>['student\AssignmentSubmissionController@update', "contentId"=>$assignment->content_id, "assignmentId"=>$assignment->id, "id"=>$submission->id ]]) !!}
@@ -93,16 +107,74 @@ Assignment
 </div>
 <br/>
 
+
+
+
 <div class="row">
 <div class="form-group">
-    {!! Form::label('document', 'Upload Document:',['class'=>'col-sm-3 control-label']) !!}
+  <h4>  {!! Form::label('document', 'Upload Document:',['class'=>'col-sm-3 control-label']) !!}</h4>
 <div class="col-sm-12">
     {!! Form::file('document',null,['class'=>'form-control']) !!}
+
+
 </div>
 </div>
 </div>
 <br/>
+
+<hr style=" background-color: #f0f0f0;
+  width: 100%;
+  float: center;">
+
+
+<div class="row"> 
+<div class="col-sm-12"> 
+
+ @if(isset($submission->document))                   
+
+                                      
+<a class="btn btn-xm btn-info col-sm-2" href="/downloadsub/{{$submission->document}}" target="_blank"> Uploaded Assignment</a>
+                                                                          
+  @endif                                
+
+</div>
+</div>
+
+
+
+@if($submission->grade>0)
+
+<div class="row">
+<div class="form-group"> 
+<h4> {!! Form::label('grade','Grade', ['class'=>'col-sm-3 control-label']) !!}</h4>
+ <div class="col-sm-6">
+            {{$submission->grade}} out of {{$assignment->max_grade}}
+ </div>
+</div>
+</div>
 <br/>
+@endif
+
+@if($submission->feedback)
+<div class="row">
+<div class="form-group"> 
+<h4> {!! Form::label('feedback','Feedback',['class'=>'col-sm-3 control-label']) !!} </h4>
+<div class="col-sm-12">
+{!! Form::textarea('feedback', null, ['class'=>'form-control']) !!}
+</div>
+</div>
+</div>
+<br/>
+@endif
+<hr style=" background-color: #f0f0f0;
+  width: 100%;
+  float: center;">
+
+ <br/> 
+<br/>
+<br/>
+
+
 @if($submission->status==0)
 @if ($now->lt($due) == 1)
 
@@ -111,9 +183,11 @@ Assignment
 <button  type="submit" class="btn btn-success" name="update" > Update</button> 
 @endif
 @endif
- <br/> 
+</div>
+</div>
 <br/>
 <br/>
+
 
 {!! Form::close() !!}
 

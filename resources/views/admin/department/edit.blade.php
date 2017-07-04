@@ -1,10 +1,16 @@
 @extends('layouts.index_admin')
-@section('title', 'Department | Create')
-@section('main_title', 'Department')
+@section('title', 'Department | Edit')
+@section('main_title')
+<i class=" fa fa-building" aria-hidden="true"></i>  Department
+@endsection
 @section('sub_title', 'Edit')
-@section ('current_page', 'Edit')
-@section ('content')
+@section('current_page')
+Department 
+<li> Edit</li>
+@endsection
+@section('content')
 <br/>
+
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
@@ -56,7 +62,7 @@
 <div class="row">
 
 <div class="col-lg-8 col-sm-offset-2">
-
+ <a class="btn btn-success" href="javascript:history.back()" > &nbsp; Return Back </a> &nbsp; OR &nbsp;
    {!!Form::submit('Save and Continue',['class'=>'btn btn-primary'])!!}
     
 </div>

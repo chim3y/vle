@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Requests\StudentRequest;
 use Yajra\Datatables\Datatables;
 use App\User;
@@ -11,6 +12,8 @@ use App\Student;
 use App\Http\Requests\UserRequest;
 use Hash;
 use Image;
+use Input;
+use Session;
 use Auth;
 
 class StudentsController extends Controller
@@ -36,6 +39,12 @@ return Datatables::of($student)
                 return view('admin.students.partials.approveordeny', compact('student'))->render();
 
             })
+             ->editColumn('image', function ($student) {
+                
+                return view('admin.students.partials.image', compact('student'))->render();
+
+            })
+            ->escapeColumns([])
             ->make(true);
     }
    public function approvedstudentsData(){
@@ -43,10 +52,12 @@ return Datatables::of($student)
 
 return Datatables::of($student)
             ->addColumn('action', function ($student) {
-                return 
-                '<a class="btn btn-primary"> 
-                 <span class="glyphicon glyphicon-edit" style="color:white"> </span> 
-                 </a>'; 
+                return view('admin.students.partials.deny', compact('student'))->render();
+            })
+              ->editColumn('image', function ($student) {
+                
+                return view('admin.students.partials.image', compact('student'))->render();
+
             })
             ->make(true);
     }
@@ -55,27 +66,17 @@ return Datatables::of($student)
 
 return Datatables::of($student)
             ->addColumn('action', function ($student) {
-                return 
-                '<form action="{{ route(\'admin.students.update\', $tutor->id)}}" method="PATCH"> 
-                    <input type = "hidden" name = "isApproved" value = "1">
-                    <button type="submit" class="btn btn-primary" style="color:white">    <strong>Approve</strong>  </button>
-                       
-                        </input>
-                    </form>
-                    <form action="{{ route(\'admin.students.update\', $tutor->id)}}" method="PATCH"> 
-                    <input type = "hidden" name = "isApproved" value="2">
-                      <button type="submit" class="btn btn-primary" style="color:white">  <strong>Deny</strong>  </button>
-                       
-                    </input>
-                    </form>
-                    ';
+               
+                   return view('admin.students.partials.approveordelete', compact('student'))->render();
+            })
+              ->editColumn('image', function ($student) {
+                
+                return view('admin.students.partials.image', compact('student'))->render();
+
             })
             ->make(true);
     }
 
-    public function create(){
-    	return view ('admin.students.create');
-    }
 
      public function store(UserRequest $request){
         $user = new Student;
@@ -93,9 +94,23 @@ return Datatables::of($student)
         $user->updated_at= $request->updated_at;
         $user->save();
 
-       return redirect('admin.students');
+       return redirect()->route('admin.students');
     }
 
+   public function create($id, Request  $request){
+      $user=User::findorfail($id);
+
+      $student=new Student;
+      $student->user_id=$id;
+      $student->isApproved=1;
+
+       $student->save();
+        $user_id=$user->id;
+       $role_id=3;
+        $user->roles()->attach($user_id, array('role_id'=>$role_id));
+ 
+       return redirect()->route('admin.users');
+    }
 
   
      public function edit($id){
@@ -104,31 +119,63 @@ return Datatables::of($student)
        return view('admin.students.edit', compact('user'));
     }
 
-    public function update($id, UserRequest $request){
-        $user = Student::findorfail($id);
-         
-        $student->isApproved= $request->Input::get('isApproved');
-        $user->update($request->all());
+    public function update($id, Request $request){
+        $student = Student::findorfail($id);
 
-
-        return redirect('admin.students');
+        $student->isApproved=Input::get('isApproved');
+   
+        $student->save();
+     
+      $user_id=$student->user_id;
+       $user=User::findorfail($user_id);
+       $role_id=3;
+        $user->roles()->attach($user_id, array('role_id'=>$role_id));
+ 
+        return redirect()->route('admin.students');
     }
     
     public function destroy($id)
    {
-    $user = User::findOrFail($id);
+    $student=Student::findorfail($id);
+      $user_id=$student->id;
+       $user=User::findorfail($user_id);
+       $role_id=3;
+       if($user->roles->contains($role_id)){
+        $user->roles()->detach($user_id, array('role_id'=>$role_id));
+       }
 
-    $user->delete();
+    $student->delete();
 
+    
     Session::flash('flash_message', 'Task successfully deleted!');
 
-    return redirect('admin.students');
+     return redirect()->route('admin.users');
 }
+
+    public function deleteuser($userid)
+   {
+    $student=Student::where('user_id', $userid);
+      $user_id=$userid;
+       $user=User::findorfail($user_id);
+       $role_id=3;
+       if($user->roles->contains($role_id)){
+        $user->roles()->detach($user_id, array('role_id'=>$role_id));
+       }
+
+    $student->delete();
+
+    
+    Session::flash('flash_message', 'Task successfully deleted!');
+
+     return redirect()->route('admin.students');
+}
+
 
 public function show($id)
     {
 
         $user = Student::findOrFail($id);
+
         return view('admin.students.show', compact('user'));
     }
 

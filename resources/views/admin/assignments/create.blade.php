@@ -2,7 +2,7 @@
 @extends('layouts.index_admin')
 @section('title', 'Assignment | Create')
 @section('main_title')
-<i class=" fa fa-taks" aria-hidden="true"></i>  Assignment
+<i class=" fa fa-task" aria-hidden="true"></i>  Assignment
 @endsection
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
@@ -91,6 +91,7 @@
 <div class="row">
 <div class="form-group">
 <div class="col-lg-5 col-sm-offset-2">
+  <a class="btn btn-success" href="javascript:history.back()" > &nbsp; Return Back </a> &nbsp; OR &nbsp;
 {{Form::submit('Add New Assignment', ['class'=>'btn btn-primary'])}}
 </div>
 </div>

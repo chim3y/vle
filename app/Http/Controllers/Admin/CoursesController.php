@@ -11,6 +11,7 @@ use App\Course_Programme;
 use App\Content;
 use App\User;
 use App\Admin;
+use App\Quiz;
 use Image;
 use Storage;
 use Auth;
@@ -24,7 +25,7 @@ class CoursesController extends Controller
 
  public function index()
     {
-   
+    
         return view('admin.courses.index');
         
     }
@@ -32,13 +33,13 @@ class CoursesController extends Controller
 public function coursesData(){
    
 
- $course = Course::with('programmes', 'semesters')->get();
-
+ $course = Course::with('programmes', 'semesters', 'user','admin' )->get();
 
 return Datatables::of($course)
             ->addColumn('action', function ($course) {
                 return view('admin.courses.partials.editanddelete', compact('course'))->render();
 }) 
+            ->rawColumns(['action'])
 ->addColumn('programme_name', function (Course $course) {
                     return $course->programmes->map(function($programmes) {
                         return $programmes->programme_name;
@@ -49,23 +50,13 @@ return Datatables::of($course)
                         return $semesters->semester_name;
                     })->implode(',<br>');
            }) 
- ->editColumn('name', function ($course) {
-
-if (is_null($course->user_id)) {
-  $admin=Admin::where('id', '=', $course->admin_id)->first();
-  $admin_name=$admin->name;
-    return 'Admin: '. ucfirst(trans($admin_name));
-}
-else{
-  $tutor=User::where('id', '=', $course->user_id)->first();
-  $tutor_name=$tutor->name;
-  return 'Tutor: '. ucfirst(trans($tutor_name));
-}
-    }) 
-->editColumn('course_name', function ($course) {
+ ->editColumn('course_name', function ($course) {
  return '<a  target="_blank" style="color:black" href="/admin/courses/'
                   .$course->id.'"> '.$course->course_name.'</a>';
-           }) 
+           })
+ 
+->escapeColumns([])
+
 
 ->make(true); 
       
@@ -102,11 +93,13 @@ else{
         $course->credits=$request->credits;
          $course->enrollment_key=Hash::make($request->enrollment_key);
         $course->description=$request->description;
+        $course->room_no=$request->room_no;
+        $course->building_name=$request->building_name;
         $course->save();
        $semester_id= $request->semester_id;
 
         $programme_id= $request->programme_id; 
-
+      
  $course->programmes()->attach($programme_id, array('semester_id'=>$semester_id));
  
     
@@ -116,8 +109,8 @@ else{
     }
 
     public function show($id){
-       $course = Course::with("semesters","programmes","user","admin","contents.lectures", "contents.assignments")->find($id);
-
+       $course = Course::with("semesters","programmes","user","admin","contents.lectures", "contents.assignments", "quizes")->find($id);
+    
       $course_id= $course->id;
 
       session()->put('course_id',$course_id);
@@ -159,6 +152,8 @@ else{
         $course->credits=$request->credits;
         $course->description=$request->description;
         $course->enrollment_key=Hash::make($request->enrollment_key);
+         $course->room_no=$request->room_no;
+        $course->building_name=$request->building_name;
         $course->save();
         
           // Operation on course_programme table2

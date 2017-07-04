@@ -34,6 +34,7 @@ class DepartmentsController extends Controller
                   return view('admin.department.partials.editanddelete', compact('department'))->render();
              
             }) 
+            ->escapeColumns([])
            ->make(true);  
       
    }

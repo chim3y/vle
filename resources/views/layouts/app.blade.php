@@ -1,17 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title> @yield('title') </title>
+     <!-- Datatables -->
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- DataTables -->
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+   <link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
+  <!-- Theme style -->
+  
+  <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet"  href="/bootstrap/css/bootstrap-tour.min.css" rel="stylesheet">
 
-    <!-- Styles -->
-    <link href="/css/app.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+<link href="bootstrap-tour.min.css" rel="stylesheet">
+
+<!-- CSRF Token -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+    <title>{{ config('app.name', 'eLearning Portal') }}</title>
+
+ 
 
     <!-- Scripts -->
     <script>
@@ -21,6 +46,7 @@
     </script>
 </head>
 <body>
+
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -36,7 +62,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'eLearning Portal') }}
                     </a>
                 </div>
 
@@ -78,10 +104,54 @@
             </div>
         </nav>
 
-        @yield('content')
-    </div>
 
+        @yield('content')
+  
+
+
+
+  <hr>
+
+
+  </div>
+  <div style="text-align: center">
+
+  <strong style="text-align: center;">Copyright &copy; 2017-2018 <a href="#" id="#one">eLearning Portal </a>.</strong> All rights
+    reserved.
+    <br/>
+
+    <br/>
+  </div>
     <!-- Scripts -->
     <script src="/js/app.js"></script>
+<!-- ./wrapper -->
+
+
+<!-- jQuery 2.2.3 -->
+
+<script src="/plugins/jQuery/jquery-3.1.1.min.js"></script>
+
+
+
+<!-- Bootstrap 3.3.6 -->
+
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+
+<script src="/bootstrap/js/bootstrap-tour.min.js"></script>
+
+<!-- DataTables -->
+
+<script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+
+<script src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+
+<script src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- AdminLTE App -->
+
+<script src="/dist/js/app.min.js"></script>
+<!-- bootstrap datepicker -->
+<script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
+
 </body>
-</html>

@@ -1,8 +1,13 @@
 @extends('layouts.index_admin')
-@section('title', 'Tutors | All')
-@section('main_title', 'Tutors')
-@section('sub_title', 'All')
-@section ('current_page', 'All')
+@section('title', 'Tutors | View All')
+@section('main_title')
+<i class=" fa fa-user" aria-hidden="true"></i>  Tutors
+@endsection
+@section('sub_title', 'View All')
+@section ('current_page')
+<li> Students </li>
+<li> View All </li>
+@endsection
 @section ('content')
 <br/>
 
@@ -20,15 +25,16 @@
 <br/>
 <div class="row">
 <div class="col-sm-10 col-sm-offset-1">
-<a type="button" class="btn btn-primary" href="/admin/tutors/create"> Add Tutor</a>
+ <a type="button" class="btn btn-success" href="/admin/tutors/create"> <i class=" fa fa-user" aria-hidden="true"></i> &nbsp; Add Tutor</a>
 </div>
 </div>
 <br/>
 <br/>
-    <table class="table table-bordered table-condensed" id="pendingtutors_table">
+ <div class="table-responsive">
+  <table class="table table-bordered table-primary table-striped table-hover" id="pendingtutors_table">
         <thead style="background-color: #D3D3D3; font-size:15px; color:black">
             <tr>
-                <th>Id</th>
+                <th>Image</th>
                 <th>Tutor Name</th>
                 <th>Email</th>
                 <th>Password</th>
@@ -39,6 +45,7 @@
 </div>
 </div>
 </div>
+</div>
 
 
 <div id="sectionB" class="tab-pane fade" style="background-color: white">
@@ -46,10 +53,11 @@
 <div class="col-sm-10 col-sm-offset-1">
 <br/>
 <br/>
-<table class="table table-bordered table-condensed" id="approvedtutors_table">
+<div class="table-responsive">
+<table class="table table-bordered table-primary table-striped table-hover" id="approvedtutors_table">
          <thead style="background-color: #D3D3D3; font-size:15px; color:black">
             <tr>
-                <th>Id</th>
+                <th>Image</th>
                 <th>User Name</th>
                 <th>Email</th>
                 <th>Password</th>
@@ -59,6 +67,7 @@
 </table>
 </div>
 </div>
+</div>
 </div>  
 
 <div id="sectionC" class="tab-pane fade" style="background-color: white">
@@ -66,11 +75,11 @@
 <div class="col-sm-10 col-sm-offset-1">
 <br/>
 <br/>
-
-<table class="table table-bordered table-condensed" id="deniedtutors_table">
+<div class="table-responsive">
+<table class="table table-bordered table-primary table-striped table-hover" id="deniedtutors_table">
           <thead style="background-color: #D3D3D3; font-size:15px; color:black">
             <tr>
-                <th>Id</th>
+                <th>Image</th>
                 <th>User Name</th>
                 <th>Email</th>
                 <th>Password</th>
@@ -78,6 +87,7 @@
             </tr>
         </thead>
 </table>
+</div>
 </div>
 </div>
 </div>
@@ -93,7 +103,7 @@ $(function() {
         serverSide: true,
         ajax: '{!! route('admin.pendingtutorsData') !!}',
         columns: [
-            { data: 'user.id', name: 'users.id', orderable: false   },
+            { data: 'image', name: 'image', orderable: false   },
             { data: 'user.name', name: 'users.name', orderable: false },
             { data: 'user.email', name: 'users.email', orderable: false },
             { data: 'user.password', name: 'users.password', orderable: false },
@@ -109,7 +119,7 @@ $(function() {
         serverSide: true,
         ajax: '{!! route('admin.approvedtutorsData') !!}',
         columns: [
-            { data: 'user.id', name: 'users.id', orderable: false  },
+            { data: 'image', name: 'image', orderable: false  },
             { data: 'user.name', name: 'users.name', orderable: false },
             { data: 'user.email', name: 'users.email', orderable: false },
             { data: 'user.password', name: 'users.password', orderable: false },
@@ -125,7 +135,7 @@ $(function() {
         serverSide: true,
         ajax: '{!! route('admin.deniedtutorsData') !!}',
         columns: [
-            { data: 'user.id', name: 'users.id', orderable: false   },
+            { data: 'image', name: 'image', orderable: false   },
             { data: 'user.name', name: 'users.name', orderable: false },
             { data: 'user.email', name: 'users.email', orderable: false },
             { data: 'user.password', name: 'users.password', orderable: false },

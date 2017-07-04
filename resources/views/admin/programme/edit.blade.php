@@ -1,9 +1,14 @@
 @extends('layouts.index_admin')
-@section('title', 'Programme | Create')
-@section('main_title', 'Programme')
+@section('title', 'Programme| Edit')
+@section('main_title')
+<i class=" fa fa-graduation-cap" aria-hidden="true"></i>  Programme
+@endsection
 @section('sub_title', 'Edit')
-@section ('current_page', 'Edit')
-@section ('content')
+@section('current_page')
+Programme
+<li> Edit/li>
+@endsection
+@section('content')
 <br/>
 
 <div class="row">
@@ -49,7 +54,7 @@
 
 <div class="row">
 <div class="col-lg-8 col-sm-offset-2">
-
+ <a class="btn btn-success" href="javascript:history.back()" > &nbsp; Return Back </a> &nbsp; OR &nbsp;
    {!!Form::submit('Save and Continue',['class'=>'btn btn-primary'])!!}
     
 </div>

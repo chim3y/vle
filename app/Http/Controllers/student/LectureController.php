@@ -24,7 +24,7 @@ class LectureController extends Controller
          $document_name = $lectures->document;
               
          if(! empty($document_name)){
-                  $file =  base_path().'/public/uploads/'.$document_name;
+                  $file =  base_path().'/public/uploads/lectures/'.$document_name;
                 if (file_exists($file)){
 
                    $ext =File::extension($file);

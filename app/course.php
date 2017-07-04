@@ -10,7 +10,7 @@ class Course extends Model
 
     protected $table = 'courses';
     protected $fillable = [
-    'course_name', 'course_code', 'credits', 'description', 'enrollment_key'
+    'course_name', 'course_code', 'credits', 'description', 'enrollment_key', 'room_no', 'building_name', 'semester_id', 'programme_id'
     ];
 
 
@@ -63,6 +63,11 @@ public function semesters(){
    public function student()
     {
          return $this->belongsToMany(Student::class, 'course_student','student_id', 'course_id')->withTimestamps();
+    }
+   
+    public function tutors()
+    {
+         return $this->belongsToMany(Tutor::class, 'course_tutor','tutor_id', 'course_id')->withTimestamps();
     }
 
 

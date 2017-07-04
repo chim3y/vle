@@ -53,17 +53,38 @@ class AssignmentSubmissionController extends Controller
      $assignment=Assignment::with('assignmentsubmission')->find($assignmentId);
     if(isset($data['save-draft'])){
       
-$assignmentsubmission = new AssignmentSubmission;        
+$assignmentsubmission = new AssignmentSubmission;  
+
+ if($request->hasfile('document')){
+             $destinationPath = '';
+        $filename = '';
+        $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
+        $file = $request->file('document');
+        $destinationPath =public_path('uploads/assignments/submissions/',$filename);
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true);
+        }
+        $filename = time(). '.' .$file->getClientOriginalName();
+
+        $file->move($destinationPath, $filename);
+
+        }
+          $assignmentsubmission->document = $filename;
+
 if(Auth::guard('admin')->check()){
     $assignmentsubmission->admin_id= Auth::guard('admin')->user()->id;
 }
 elseif(Auth::guard('web')->check()){
    $assignmentsubmission->user_id= Auth::guard('web')->user()->id; 
 }
+
+
 $assignmentsubmission->description = $request->description;
+
 $assignmentsubmission->assignment_id= $assignmentId;    
 $assignmentsubmission->status= 0;       
 $assignmentsubmission->save();
+
 return redirect('/student/courses/'.$assignment->course_id);
 
  } 
@@ -77,7 +98,26 @@ if(Auth::guard('admin')->check()){
 elseif(Auth::guard('web')->check()){
    $assignmentsubmission->user_id= Auth::guard('web')->user()->id; 
 }
-       
+if($request->hasfile('document')){
+             $destinationPath = '';
+        $filename = '';
+        $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
+        $file = $request->file('document');
+        $destinationPath =public_path('uploads/assignments/',$filename);
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true);
+        }
+        $filename = time(). '.' .$file->getClientOriginalName();
+        $file->move($destinationPath, $filename);
+
+
+         $oldfilename=$assignmentsubmission->document;   
+              if (!empty($oldfilename)){
+             File::delete('uploads/assignments/submissions'.$oldfilename);
+           }
+        $assignmentsubmission->document = $filename;
+        }
+                   
 $assignmentsubmission->description = $request->description;
 $assignmentsubmission->assignment_id= $assignmentId;
 $assignmentsubmission->status= 1;    
@@ -135,7 +175,8 @@ if (!$condition){
         $lefthours =Carbon::now()->copy()->addDays($leftdays)->diffInHours($due);
         $leftminutes = Carbon::now()->copy()->addDays($leftdays)->addHours($lefthours)->diffInMinutes($due);
 
-  return view('student.assignments.show')->withAssignment($assignment)->withNow($now)->withDue($due)->withLeftdays($leftdays)->withLefthours($lefthours)->withLeftminutes($leftminutes);
+  
+  return view('student.assignments.create')->withAssignment($assignment)->withNow($now)->withDue($due)->withLeftdays($leftdays)->withLefthours($lefthours)->withLeftminutes($leftminutes);
         
 }
 
@@ -164,10 +205,13 @@ if (!$condition){
         $lefthours =Carbon::now()->copy()->addDays($leftdays)->diffInHours($due);
         $leftminutes = Carbon::now()->copy()->addDays($leftdays)->addHours($lefthours)->diffInMinutes($due);
 
-  
         return view('student.assignments.show1')->withAssignment($assignment)->withNow($now)->withDue($due)->withLeftdays($leftdays)->withLefthours($lefthours)->withLeftminutes($leftminutes)->withsubmission($submission);
         
 }
+  public function downloadsub($filename) {
+    $file_path = public_path('uploads/assignments/submissions/'.$filename);
+    return response()->download($file_path);
+  }
 
 
 
@@ -201,6 +245,27 @@ elseif(Auth::guard('web')->check()){
    $assignmentsubmission->user_id= Auth::guard('web')->user()->id; 
   
 }
+if($request->hasfile('document')){
+             $destinationPath = '';
+        $filename = '';
+        $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
+        $file = $request->file('document');
+        $destinationPath =public_path('uploads/assignments/submissions/',$filename);
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true);
+        }
+        $filename = time(). '.' .$file->getClientOriginalName();
+        $file->move($destinationPath, $filename);
+
+      
+         $oldfilename=$assignmentsubmission->document;  
+           if (!empty($oldfilename)){
+             File::delete('uploads/assignments/submissions/'.$oldfilename);
+           }
+
+        $assignmentsubmission->document = $filename;
+        }
+       
 $assignmentsubmission->description = $request->description;
 $assignmentsubmission->assignment_id= $assignmentId; 
 if($assignmentsubmission->status==1){
@@ -220,7 +285,27 @@ return redirect('/student/contents/'.$assignment->content_id.'/assignments/'.$as
  elseif(isset($data['save'])){
      
 $assignmentsubmission=AssignmentSubmission::find($id); 
-$assignment=Assignment::find($assignmentId);      
+$assignment=Assignment::find($assignmentId); 
+if($request->hasfile('document')){
+             $destinationPath = '';
+        $filename = '';
+        $size = round(($request->file('document')->getSize()) / 1024, 2); //round of to 2 decimal place in KB
+        $file = $request->file('document');
+        $destinationPath =public_path('uploads/assignments/',$filename);
+        if (!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, 0777, true);
+        }
+        $filename = time(). '.' .$file->getClientOriginalName();
+        $file->move($destinationPath, $filename);
+
+
+         $oldfilename=$assignmentsubmission->document;   
+              if (!empty($oldfilename)){
+             File::delete('uploads/assignments/submissions'.$oldfilename);
+           }
+        $assignmentsubmission->document = $filename;
+        }
+            
 if(Auth::guard('admin')->check()){
     $assignmentsubmission->admin_id= Auth::guard('admin')->user()->id;
 }

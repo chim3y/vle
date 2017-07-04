@@ -16,7 +16,7 @@
 <br/>
 <div class="row">
 <div class="col-sm-10 col-sm-offset-1">
-<a type="button" class="btn btn-primary" href="/admin/users/create"> Add Users</a>
+<a type="button" class="btn btn-primary" id="create" href="/admin/users/create" data-toggle="tooltip" title="create users"> Create Users</a>
 </div>
 </div>
 <br/>
@@ -24,10 +24,10 @@
     <table class="table table-bordered table-condensed" id="users_table">
         <thead style="background-color: #D3D3D3; font-size:15px; color:black">
             <tr>
-                <th>Id</th>
+                <th>Image</th>
                 <th>User Name</th>
                 <th>Email</th>
-                <th>Password</th>
+                <th>Created At</th>
                 <th>Action </th>
             </tr>
         </thead>
@@ -47,10 +47,10 @@ $(function() {
         serverSide: true,
         ajax: '{!! route('admin.usersData') !!}',
         columns: [
-            { data: 'id', name: 'id', orderable: true   },
+            { data: 'image', name: 'image', orderable: true   },
             { data: 'name', name: 'name', orderable: false },
             { data: 'email', name: 'email', orderable: false },
-            { data: 'password', name: 'password', orderable: false },
+            { data: 'created_at', name: 'created_at', orderable: false },
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
@@ -58,12 +58,16 @@ $(function() {
 
 
 </script>
+
 <script type="text/javascript">
-$(document).ready(function(){ 
-    $("#myTab a").click(function(e){
-        e.preventDefault();
-        $(this).tab('show');
-    });
+    $('#create').click(function(){
+this.form.submit();
+this.disabled=true;
+this.innerHTML='<i class="fa fa-spinner fa-spin"></i> Creating...';
 });
+
 </script>
+
+
+
 @endpush

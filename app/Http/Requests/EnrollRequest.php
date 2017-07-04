@@ -25,12 +25,9 @@ class EnrollRequest extends FormRequest
     {
         return [
          
-         'enrollment_key'=> 'required',
+         'enrollment_key'=> 'required | min:6| regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
          
         ];
     }
-    public function setPasswordAttribute($enrollment_key)
-    {   
-        $this->attributes['enrollment_key'] = bcrypt($enrollment_key);
-    }
+
 }

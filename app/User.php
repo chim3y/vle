@@ -30,6 +30,11 @@ class User extends Authenticatable
       return $this->hasMany(Course::class);
     
    } 
+
+    public function question(){
+      return $this->hasMany(Question::class);
+    
+   } 
   public function roles(){
       return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
 }
@@ -69,4 +74,39 @@ class User extends Authenticatable
       return $this->hasMany(AssignmentSubmission::class);
     
    } 
+
+
+   public function questions(){
+      return $this->belongsToMany(Question::class,'answer_user','user_id','question_id')->withPivot('answer_id','quiz_id','admin_id', 'marks', 'attempt_id')->withTimestamps();
+    
+   } 
+
+public function quizes(){
+      return $this->belongsToMany(Quiz::class,'answer_user','user_id','quiz_id')->withPivot('answer_id','question_id','admin_id', 'marks', 'attempt_id')->withTimestamps();
+    
+   } 
+
+public function answers(){
+      return $this->belongsToMany(Answer::class,'answer_user','user_id','answer_id')->withPivot('question_id','quiz_id','admin_id', 'marks', 'attempt_id')->withTimestamps();
+    
+   } 
+
+
+public function admins(){
+      return $this->belongsToMany(Admin::class,'answer_user','user_id','admin_id')->withPivot('answer_id','attempt_id','quiz_id','question_id', 'marks')->withTimestamps();
+    
+   } 
+
+public function attempt(){
+      return $this->belongsToMany(Admin::class,'answer_user','user_id','attempt_id')->withPivot('answer_id','quiz_id','question_id', 'marks', 'admin_id')->withTimestamps();
+    
+   } 
+
+
+
+    public function attemptquiz(){
+      return $this->hasMany(AttemptQuiz::class);
+    
+   }    
+
 }

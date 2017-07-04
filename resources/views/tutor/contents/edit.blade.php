@@ -1,21 +1,22 @@
 
-@extends('layouts.index')
-@section('title', 'Content | Create')
-@section('main_title', 'Content')
-@section('sub_title', 'Create')
-@section ('current_page', 'Create')
+@extends('layouts.index'_tutor)
+@section('title', 'Content | Edit')
+@section('main_title')
+<i class=" fa fa-bookmark" aria-hidden="true"></i>  Content
+@endsection
+@section('sub_title', 'Edit')
+@section ('current_page')
+Content
+<li> Edit <li>
+@endsection
+@section ('current_page', 'Edit')
 @section('stylesheets')
 {!!Html::style('/css/select2.min.css')!!}
 @endsection
-@section('name')
-{{ ucfirst(trans(Auth::guard('web')->user()->name)) }} 
-@endsection
+
 
 @section('role', 'Tutor')
 
-@section('link_dashboard')
-<a href='/tutor/dasboard'> Dashboard </a>
-@endsection
 @section ('content')
 
 <div class="row">
@@ -45,10 +46,12 @@
 </div>
 </div>
 <br/>
+<br/>
 
 <div class="row">
 <div class="form-group">
-<div class="col-lg-5 col-sm-offset-2">
+<div class="col-lg-5 col-sm-offset-3">
+<a class="btn btn-success" href="javascript:history.back()" > &nbsp; Return Back </a> &nbsp; OR &nbsp;
 {{Form::submit('Update Content', ['class'=>'btn btn-primary'])}}
 </div>
 </div>

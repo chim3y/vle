@@ -25,6 +25,10 @@
 
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet"  href="/bootstrap/css/bootstrap-tour.min.css" rel="stylesheet">
+<link rel="stylesheet"  href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.dataTables.min.css" >
+
+
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -45,6 +49,7 @@
       <span class="logo-mini"><b>e</b>LP</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>eLearning Portal</b></span>
+
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -60,49 +65,47 @@
 
         <ul class="nav navbar-nav">
           <!-- Messages: style can be found in dropdown.less-->
-            <li class="dropdown messages-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-            </ul>
-            </li>
+        
 
            <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                @if( !empty (Auth::user()->image))
+                <img src="{{ asset('/images/users/'.Auth::user()->image) }}" style="height:20px ; width:20px " class="img-circle" alt="User Image">
+          @else
+          <img src="{{ asset('/images/users/user_default.png') }}"  style="height:20px ; width:20px " class="img-circle" alt="User Image">
+          @endif
               <span class="hidden-xs">   </span>
             </a>
 
             <ul class="dropdown-menu">
                 <li class="user-header">
-                <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+         @if( !empty (Auth::user()->image))
+                <img src="{{ asset('/images/users/'.Auth::user()->image) }}"   style="height:70px; width:70px" class="img-circle" alt="User Image">
+          @else
+          <img src="{{ asset('/images/users/user_default.png') }}"   style="height:70px; width:70px" class="img-circle" alt="User Image">
+          @endif
                 <p>
+
              
-               
+                 {{Auth::user()->name}}
                   <small>Admin</small>
                 </p>
                 </li>
+
           <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="/users/{{Auth::user()->id}}/{{ str_slug(Auth::user()->name)}}/profile" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
 
-                 <a href="{{ route('logout') }}" class="btn btn-default btn-flat"
-                 
-                                 onclick="event.preventDefault();
-                                 document.getElementById('logout-form').submit();">
-                                 Logout
-                                </a>
+         <a href="{{ url('/logout') }}"
+                                          style="color:#4c4c4c"   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            <i class="fa fa-power-off" aria-hidden="true"></i> Logout
+                                        </a>
 
-                  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                           {{ csrf_field() }}
-                   </form>
-                </div>
-               </li>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
             </ul>
          </li>
         </ul>
@@ -111,15 +114,17 @@
   </header>
                
        
-          
+   
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-      
+ 
          <!-- search form -->
       <form action="#" method="get" class="sidebar-form">
+
         <div class="input-group">
+
           <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
@@ -130,10 +135,10 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
      <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header" > MAIN NAVIGATION</li>
         <li class="active treeview">
        <a href="{{ URL::route('admin.dashboard') }}"> 
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-dashboard" ></i> <span >Dashboard</span>
           </a>
         </li>
         <li>
@@ -157,6 +162,12 @@
             <i class="fa fa-book"></i> <span>Courses</span>
           </a>
         </li>
+
+          <li>
+       <a href="/admin/semesters"> 
+            <i class="fa fa-users"></i> <span>Semesters</span>
+          </a>
+        </li>
       
        <li>
        <a href="{{ URL::route('admin.departments') }}"> 
@@ -166,20 +177,11 @@
 
          <li>
        <a href="{{ URL::route('admin.programmes') }}"> 
-            <i class="fa fa-graduation-cap"></i> <span>Programmes</span>
+            <i class="fa fa-graduation-cap"></i> <span>  Programme</span>
           </a>
         </li>
 
-        
-        <li>
-          <a href="pages/calendar.html">
-            <i class="fa fa-calendar"></i> <span>Calendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
-          </a>
-        </li>
+      
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -205,7 +207,7 @@
   <!-- /.content-wrapper -->
  
   <footer class="main-footer">
-    <strong>Copyright &copy; 2017-2018 <a href="#">eLearning Portal </a>.</strong> All rights
+    <strong>Copyright &copy; 2017-2018 <a href="#" id="#one">eLearning Portal </a>.</strong> All rights
     reserved.
   </footer>
 
@@ -222,6 +224,7 @@
 <!-- Bootstrap 3.3.6 -->
 
 <script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/bootstrap/js/bootstrap-tour.min.js"></script>
 <!-- DataTables -->
 
 <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -236,11 +239,86 @@
 <!-- bootstrap datepicker -->
 <script src="/plugins/datepicker/bootstrap-datepicker.js"></script>
 
+
+
+<script src="https://cdn.datatables.net/1.10.15/js/buttons.print.js"> </script>
+<script src="https://cdn.datatables.net/1.10.15/js/buttons.flash.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"> </script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js"> </script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"> </script>
+
+
+
 <script>
-    window.Laravel = <?php echo json_encode([
-        'csrfToken' => csrf_token(),
-    ]); ?>
+// Instance the tour
+var tour = new Tour({
+  debug: true,
+  storage: true,
+  steps: [
+  {
+    element: "#one",
+    title: "Hello {{Auth::user()->name}}",
+    content: "Welcome to Admin Dashboard, I will help you get started.",
+    placement: "bottom",
+    duration:4000,
+
+  },
+ {
+    element: "#two",
+    title: "Department",
+    content: "Lets Start with Department.click on Department Module to view Department Page.",
+    placement: "left",
+    duration:4000,
+    
+  },
+  {
+    element: "#three",
+    title: "Programme",
+    content: "Click on Programme to view all the Programme listed.",
+    placement: "bottom",
+     duration:4000,
+    },
+    {
+    element: "#four",
+    title: "Course",
+    content: "Click on Course to view all the Courses and there page.",
+    placement: "bottom",
+     duration:4000,
+    },
+    {
+    element: "#five",
+    title: "Users",
+    content: "You can view all the users here.",
+    placement: "bottom",
+     duration:4000,
+    },
+    
+      {
+    element: "#",
+    title: "View grade",
+    content: "Click on Grade module to View students grade",
+    placement: "top",
+    onShow: function() {
+      return $("#aone").addClass("open");
+    },      onHide: function() {
+      $("#one").removeClass("open"); 
+    } 
+  }    
+]});
+
+if (tour.ended()) {
+  tour.restart();
+} else {
+  tour.init();
+  tour.start();
+  window.localStorage.clear();
+}
+
 </script>
+
 
 @stack('scripts')
 

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'eLearning Poral',
+    'name' => 'eLearning Portal',
 
     /*
     |--------------------------------------------------------------------------
@@ -163,10 +163,11 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         'Yajra\Datatables\DatatablesServiceProvider',
+        Yajra\Datatables\ButtonsServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Tinker\TinkerServiceProvider::class,
-    
+        Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         
      
         

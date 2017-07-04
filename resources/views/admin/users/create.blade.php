@@ -1,14 +1,24 @@
-@extends('layouts.index')
+
+@extends('layouts.index_admin')
 @section('title', 'Users | Create')
-@section('main_title', 'Users')
-@section('sub_title', 'Create')
+@section('main_title')
+<i class=" fa fa-user" aria-hidden="true"></i>  User
+@endsection
+@section('sub_title', 'Users')
 @section ('current_page', 'Create')
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
+
+  <script>tinymce.init({ selector:'textarea' });</script>
+@endsection
+
 @section ('content')
 <br/>
 
 <div class="row">
 <div class="col-sm-8 col-sm-offset-2" >
-{!! Form::open(['url'=>'users','files'=>'true']) !!}
+{!! Form::open(['url'=>'/admin/users/store','files'=>'true']) !!}
  <div class="well" style="background-color: white">
 
 <div class="page-header"> Basic Information </div>
@@ -16,88 +26,28 @@
  <div class="form-group">
  {!! Form::label('image','Upload Image',['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
+<div class="well">
 {!! Form::file('image') !!}
+
 </div>
  </div>
  </div>
  <br/>
- 
+
+
 <div class="row">
 <div class="form-group"> 
 {!! Form::label('user_type','User Type*',['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::select('user_type',['Student'=>'student','Tutor'=>'tutor']) !!}
+<select name="user_type" class="form-control">
+<option value=""> </option>
+<option value="student"> Student </option>
+<option value="tutor"> Tutor </option>
+</select>
 </div>
 </div>
 </div>
 <br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('first_name','First Name*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('first_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('middle_name','Middle Name',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('middle_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('last_name','Last Name*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('last_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('dob','Date of Birth*', ['class'=>'col-sm-3 control-label']) !!}
- <div class="col-sm-6">
-              <div class="input-group date">
-                <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-                </div>
-                <input type="text" class="form-control pull-right" id="datepicker">
-                </div>
- </div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('cid','CID*',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('cid',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('phone','Mobile Number*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('phone',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="page-header"> Account Information </div>
 
 <div class="row">
 <div class="form-group"> 
@@ -108,9 +58,11 @@
 </div>
 </div>
 <br/>
+
+
 <div class="row">
 <div class="form-group"> 
-{!! Form::label('email','Email*',['class'=>'col-sm-3 control-label']) !!}
+{!! Form::label('email','Email',['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
 {!! Form::email('email',null, ['class'=>'form-control']) !!}
 </div>
@@ -118,95 +70,21 @@
 </div>
 <br/>
 
-<div class="row">
+ <div class="row">
 <div class="form-group"> 
 {!! Form::label('password','Password*',['class'=>'col-sm-3 control-label']) !!}
 <div class="col-sm-6">
-{!! Form::password('password',null, ['class'=>'form-control']) !!}
+<input type="password" class="form-control"> 
 </div>
 </div>
 </div>
 <br/>
-
-
-<div class="page-header"> School Details </div>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('school_name','School Name*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('school_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('department_name','Department Name*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('department_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('programme_name','Programme Name*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('programme_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('semester_no','Semester Number*', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('semester_no',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-<div class="page-header"> Address Details </div>
-
-
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('street_name','Street Name', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('street_name',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
+ 
 
 
 
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('room_no','Room Number', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('class_no', null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
 
 
-<div class="row">
-<div class="form-group"> 
-{!! Form::label('building_no','Building Number', ['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-6">
-{!! Form::text('building_no',null, ['class'=>'form-control']) !!}
-</div>
-</div>
-</dv>
-<br/>
-<br/>
 
 <div class="row">
 <div class="form-group"> 
@@ -219,8 +97,8 @@
     <span class="glyphicon glyphicon glyphicon-menu-up"></span>
     </a>
     <ul class="dropdown-menu " role="menu">
-    <li><a href="/users/create">Save course and add another usere</a></li>
-    <li><a href="/users">Save course and go to users index</a></li>
+    <li><a href="/admin/users/create">Save User and add another user</a></li>
+    <li><a href="/admin/users">Save User and go to users index</a></li>
     </ul>
 </div> 
 </div>
@@ -229,7 +107,13 @@
 </div>
 </div>
 </div>
+<br/>
 {!! Form::close() !!}
+
+
+</div>
+<div class="row">
+ <div class="col-md-6 col-md-offset-4"> 
 @if($errors->any())
     <ul class="alert alert-danger">
     @foreach($errors->all() as $error)
@@ -238,7 +122,7 @@
     </ul>
 
 @endif
-
+</div>
 </div>
 </div>
 

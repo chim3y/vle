@@ -25,10 +25,10 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-         'image'=>'sometimes | image'
-         'name'=>'required',
-         'email'=>'required | min:6',
-         'password'=> 'required',
+         'image'=>'sometimes | image',
+         'name'=>'required | unique',
+         'email'=>'required | min:6 | unique | ',
+         'password'=> 'required|min:6 | regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/', 
          
         ];
     }

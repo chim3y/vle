@@ -6,19 +6,23 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "Yajra/laravel-datatables-oracle": "~6.0",
         "intervention/image": "^2.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.2.0",
-        "yajra/laravel-datatables-oracle": "~6.0"
+        "pusher/pusher-php-server": "^2.6",
+        "unisharp/laravel-filemanager": "^1.8",
+        "yajra/laravel-datatables-buttons": "^1.0",
+        "yajra/laravel-datatables-oracle": "^7.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
+        "laravel/browser-kit-testing": "^2.0",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*"
-        
     },
     "autoload": {
         "classmap": [
@@ -30,8 +34,13 @@
     },
     "autoload-dev": {
         "classmap": [
-            "tests/TestCase.php"
-        ]
+              "tests/TestCase.php",
+        "tests/BrowserKitTestCase.php"
+ ],
+            "psr-4": {
+    "Tests\\": "tests/"
+}
+       
     },
     "scripts": {
         "post-root-package-install": [

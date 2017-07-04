@@ -33,9 +33,9 @@ class ContentController extends Controller
         $content= new Content();
         $content->name = $request->name;
         $content->description = $request->description;
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
+      
+           $content->course_id= session('course_id') ;
+    
        
         $content->save();
         return redirect('/tutor/courses/'.$content->course_id);
@@ -75,10 +75,7 @@ class ContentController extends Controller
         $content = Content::findorfail($id);
         $content->name = $request->name;
         $content->description = $request->description;
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
-       
+        $content->course_id= session('course_id');
         $content->save();
 
     
@@ -96,9 +93,9 @@ class ContentController extends Controller
         $content= Content::findOrFail($id);
         $content->delete();
 
-        foreach (session('course_id') as $course_id) {
-           $content->course_id= $course_id;
-        }
+     
+           $content->course_id=session('course_id');
+           
          return redirect('/tutor/courses/'.$content->course_id);
    
     }

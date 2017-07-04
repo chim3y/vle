@@ -24,8 +24,8 @@ class ProgrammeRequest extends FormRequest
     public function rules()
     {
         return [
-            'programme_code'=>'required',
-            'programme_name'=>'required',
+            'programme_code'=>'required | unique:programmes',
+            'programme_name'=>'required  | unique:programmes' ,
         
         ];
     }

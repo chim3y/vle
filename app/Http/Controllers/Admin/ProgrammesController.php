@@ -41,7 +41,8 @@ public function __construct() {
                return view('admin.programme.partials.editanddelete', compact('programme'))->render();
                 
              
-            })    
+            }) 
+            ->escapeColumns([])   
            ->make(true);  
       
    }

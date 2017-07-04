@@ -6,8 +6,13 @@
 @endsection
 @section('sub_title', 'View')
 @section ('current_page', 'View')
-@section ('stylesheets')
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
 
+  <script>tinymce.init({ selector:'textarea' });</script>
+@endsection
+@section ('content')
 <div class="row">
 <div class="col-sm-10 col-sm-offset-1">
 
@@ -70,34 +75,42 @@
 <hr style=" background-color: #f0f0f0;
   width: 100%;
   float: center;">
+
+
+<div class="row"> 
+<div class="col-sm-12"> 
+@if(isset($assignment->document))                   
+  
+<a class="btn btn-xm btn-info col-sm-2" href="\download\{{$assignment->document}}" target="_blank"> Download File</a>
+                                      
+   @else
+                                                              
+    No attachments found!
+                                                                                                             
+    @endif
+
+</div>
+</div>
+<hr style=" background-color: #f0f0f0;
+  width: 100%;
+  float: center;">
 <br/>
-<div class="row">
-<div class="form-group"> 
-<h4> {!! Form::label('description','Description',['class'=>'col-sm-3 control-label']) !!} </h4>
-<div class="col-sm-12">
-{!! Form::textarea('description',null, ['class'=>'form-control']) !!}
+<div class="row"> 
+<div class="table-responsive">
+    <table class="table table-bordered table-primary table-striped table-hover" id="courses_table">
+        <thead style="background-color: #428bca;
+    color: white;">
+            <tr> 
+                <th>Student</th>
+                <th>Description </th>
+                <th>Document </th>
+                <th>Submitted on </th>
+                <th class="col-md-2">Operations </th>
+            </tr>
+        </thead>
+</table>
 </div>
 </div>
-</div>
-<br/>
-
-<div class="row">
-<div class="form-group">
-    {!! Form::label('document', 'Upload Document:',['class'=>'col-sm-3 control-label']) !!}
-<div class="col-sm-12">
-    {!! Form::file('document',null,['class'=>'form-control']) !!}
-</div>
-</div>
-</div>
-<br/>
-
-@if ($now->lt($due) == 1)
-
-<button class="btn btn-primary center-block" type="submit" form action="{{ action('student\AssignmentSubmissionController@store', array('contentID'=>$assignment->content_id, 'assignmentID'=>$assignment->id)) }}" >Submit</button>
-
-</div>
-
-@endif
 
 
 
@@ -114,6 +127,25 @@
 
 @endsection
 @push('scripts')
+
+<script>
+$(function() {
+    $('#courses_table').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+              ajax:"{{ route('admin.submissionData', array('id'=>$assignment->id, 'contentId'=>$assignment->content_id)) }}" ,
+        columns: [
+            { data: 'name', name: 'name', orderable: false },
+            { data: 'description', name: 'description', orderable: false },
+            { data: 'document', name: 'document', orderable: false },
+            {data: 'created_at', name: 'created_at', orderable: false },
+            {data: 'action', name: 'action', orderable: false}
+        ]
+    });   
+});
+</script>
+
 {!! Html::script('/js/select2.min.js') !!}
 
 <script type="text/javascript">

@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.index_admin')
 @section('title', 'Quizes| All')
 
 @section ('current_page', 'Quizes')

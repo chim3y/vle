@@ -1,9 +1,18 @@
-
-@extends('layouts.index')
-@section('title', 'Lecture| Create')
-@section('main_title', 'Lecture')
+extends('layouts.index_tutor')
+@section('title', 'Lecture | Create')
+@section('main_title')
+<i class=" fa fa-book" aria-hidden="true"></i>  Lecture
+@endsection
 @section('sub_title', 'Create')
 @section ('current_page', 'Create')
+@section('role', 'Tutor')
+@section('stylesheets')
+{!!Html::style('/css/select2.min.css')!!}
+{!! Html::script('/js/select2.min.js') !!}
+
+  <script>tinymce.init({ selector:'textarea' });</script>
+@endsection
+
 @section ('content')
 <br/>
 

@@ -44,8 +44,8 @@ class AssignmentSubmitted extends Notification
     {
         return (new MailMessage)
                     ->line('New Assignment is Submitted.')
-                    ->action('Assignment Submitted', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->action('Assignment Submitted', url($this->assignmentsubmission->id))
+                    ->line('Grade the Assignment');
     }
 
     /**
